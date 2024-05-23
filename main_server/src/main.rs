@@ -48,7 +48,7 @@ fn full<T: Into<Bytes>>(chunk: T) -> BoxBody<Bytes, hyper::Error> {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr: SocketAddr = ([0, 0, 0, 0], 7878).into();
+    let addr: SocketAddr = ([127, 0, 0, 1], 7878).into();
 
     // For the most basic of state, we just share a counter, that increments
     // with each request, and we send its value back in the response.

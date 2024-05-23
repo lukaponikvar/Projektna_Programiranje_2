@@ -14,8 +14,6 @@ use serde::{Deserialize, Serialize};
 
 const PORT: u16 = 12345;
 
-pub mod expression;
-pub mod sequence;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Project {
@@ -139,20 +137,20 @@ async fn send_get(url: String) -> Result<String, reqwest::Error> {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr: SocketAddr = ([0, 0, 0, 0], PORT).into();
+    let addr: SocketAddr = ([127, 0, 0, 1], PORT).into();
 
-    let b = send_get("http://0.0.0.0:7878/project".to_string()).await?;
+    let b = send_get("http://127.0.0.1:7878/project".to_string()).await?;
     println!("HERE {}", b);
 
     let b = send_post(
-        "http://0.0.0.0:7878/project".to_string(),
+        "http://127.0.0.1:7878/project".to_string(),
         serde_json::to_string(&get_project()).unwrap(),
     )
     .await
     .unwrap();
     println!("HERE {}", b);
 
-    let b = send_get("http://0.0.0.0:7878".to_string()).await?;
+    let b = send_get("http://127.0.0.1:7878".to_string()).await?;
     println!("HERE {}", b);
 
     let listener = TcpListener::bind(addr).await?;
