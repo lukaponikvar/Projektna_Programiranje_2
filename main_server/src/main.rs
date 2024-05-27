@@ -23,6 +23,11 @@ pub struct PublicProject {
     pub port: u16,
 }
 
+/// Collects the body of a request. 
+/// 
+/// # Panics
+/// 
+/// The function panics if the request is too big.
 async fn collect_body(req: Request<Incoming>) -> Result<String, hyper::Error> {
     let max = req.body().size_hint().upper().unwrap_or(u64::MAX);
     if max > 1024 * 64 {
@@ -63,7 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let db = db.clone();
 
-        let service = service_fn(move |req| {
+        let service = service_fn(move |req: Request<Incoming>| {
             let db: Arc<Mutex<HashMap<String, PublicProject>>> = db.clone();
             async move {
                 match (req.method(), req.uri().path()) {
@@ -75,7 +80,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         Ok::<_, Error>(Response::new(full(value)))
                     }
                     (&Method::POST, "/project") => {
-                        //
                         let body = collect_body(req).await?;
                         let project: PublicProject = serde_json::from_str(&body).unwrap();
                         let mut db = db.lock().unwrap();

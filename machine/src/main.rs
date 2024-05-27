@@ -93,6 +93,9 @@ fn sequences() -> Vec<SequenceInfo> {
     sequences
 }
 
+/// Returns a Project: name, ip and port.
+/// 
+/// Trenutno vrača Matija & Filip.
 fn get_project() -> Project {
     return Project {
         name: "Matija & Filip".to_string(),
@@ -106,6 +109,12 @@ fn full<T: Into<Bytes>>(chunk: T) -> BoxBody<Bytes, hyper::Error> {
         .map_err(|never| match never {})
         .boxed()
 }
+
+/// Collects the body of a request. 
+/// 
+/// # Panics
+/// 
+/// The function panics if the request is too big.
 async fn collect_body(req: Request<Incoming>) -> Result<String, hyper::Error> {
     let max = req.body().size_hint().upper().unwrap_or(u64::MAX);
     if max > 1024 * 64 {
@@ -153,6 +162,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let b = send_get("http://127.0.0.1:7878".to_string()).await?;
     println!("HERE {}", b);
 
+    // Tu posluša naša mašina.
     let listener = TcpListener::bind(addr).await?;
     println!("Listening on http://{}", addr);
 

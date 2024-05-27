@@ -38,4 +38,3 @@ for j in projects:
     else:
         print("Matija & Filip not found")
         exit(1)
-        exit(1)
