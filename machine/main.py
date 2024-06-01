@@ -1,12 +1,13 @@
 import requests
 
 projects = requests.get("http://127.0.0.1:7878/project").json()
-for j in projects:
-    if j["name"] == "Matija & Filip":
-        url = "http://" + j["ip"] + ":" + str(j["port"]) + "/sequence"
+for projekt in projects:
+    if projekt["name"] == "Matija & Filip":
+        url = "http://" + projekt["ip"] + ":" + \
+            str(projekt["port"]) + "/sequence"
         print(url)
-        seqs = requests.get(url).json()
-        assert "Arithmetic" in [j["name"] for j in seqs]
+        sequences = requests.get(url).json()
+        assert "Arithmetic" in [zaporedje["name"] for zaporedje in sequences]
         k = 10
         z = 0
         for j in range(100):

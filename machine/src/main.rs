@@ -99,7 +99,7 @@ fn sequences() -> Vec<SequenceInfo> {
 fn get_project() -> Project {
     return Project {
         name: "Matija & Filip".to_string(),
-        ip: "0.0.0.0".to_string(),
+        ip: "127.0.0.1".to_string(),
         port: PORT,
     };
 }
@@ -144,8 +144,21 @@ async fn send_get(url: String) -> Result<String, reqwest::Error> {
     return Ok(res);
 }
 
+// asfga
+fn izpisi() {
+    let x = SequenceInfo {
+        name: "Arithmetic".to_string(),
+        description: "Arithmetic sequence".to_string(),
+        parameters: 2,
+        sequences: 0,
+    };
+    println!("{:#?}", serde_json::to_string(&sequences()).unwrap())
+}
+// dadf 
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    izpisi();
     let addr: SocketAddr = ([127, 0, 0, 1], PORT).into();
 
     let b = send_get("http://127.0.0.1:7878/project".to_string()).await?;
@@ -183,7 +196,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         serde_json::to_string(&get_project()).unwrap(),
                     ))),
                     (&Method::GET, "/sequence") => {
-                        //
                         let sequences = sequences();
                         Ok(Response::new(full(
                             serde_json::to_string(&sequences).unwrap(),
