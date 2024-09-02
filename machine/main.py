@@ -2,6 +2,7 @@ import requests
 
 projects = requests.get("http://127.0.0.1:7878/project").json()
 for projekt in projects:
+    print(projekt, 3)
     if projekt["name"] == "Matija & Filip":
         url = "http://" + projekt["ip"] + ":" + \
             str(projekt["port"]) + "/sequence"
@@ -11,6 +12,7 @@ for projekt in projects:
         k = 10
         z = 0
         for j in range(100):
+            print(j)
             body = {
                 "range": {
                     "from": j * 100,
@@ -32,10 +34,16 @@ for projekt in projects:
                     },
                 ],
             }
+            print(j)
             r = requests.post(url + "/Arithmetic", json=body)
-            # print(r)
             print(r.json())
+            print("Hejhoj")
+        print("ojla")
         break
+        print("kaj")
     else:
         print("Matija & Filip not found")
         exit(1)
+
+print("Hejhoj2")
+quit()
