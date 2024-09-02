@@ -3,7 +3,7 @@ import requests
 projects = requests.get("http://127.0.0.1:7878/project").json()
 for projekt in projects:
     print(projekt, 3)
-    if projekt["name"] == "Matija & Filip":
+    if projekt["name"] == "Luka & Anara":
         url = "http://" + projekt["ip"] + ":" + \
             str(projekt["port"]) + "/sequence"
         print(url)
@@ -42,7 +42,7 @@ for projekt in projects:
         break
         print("kaj")
     else:
-        print("Matija & Filip not found")
+        print("Luka & Anara not found")
         exit(1)
 
 print("Hejhoj2")
