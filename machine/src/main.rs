@@ -36,6 +36,12 @@ fn sequences() -> Vec<SequenceInfo> {
         parameters: 1,
         sequences: 0,
     });
+    sequences.push(SequenceInfo {
+        name: "Geometric".to_string(),
+        description: "Geometric sequence with two parameters: start and quotient.".to_string(),
+        parameters: 2,
+        sequences: 0,
+    });
     sequences
 }
 
@@ -144,6 +150,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                             }
                             Some(s) if *s.name == "Constant".to_string() => {
                                 let seq = sequences::constant::Constant::new(request.parameters[0]);
+                                Ok(Response::new(full(
+                                    serde_json::to_string(&seq.range(range)).unwrap(),
+                                )))
+                            }
+                            Some(s) if *s.name == "Geometric".to_string() => {
+                                let seq = sequences::geometric::Geometric::new(
+                                    request.parameters[0],
+                                    request.parameters[1],
+                                );
                                 Ok(Response::new(full(
                                     serde_json::to_string(&seq.range(range)).unwrap(),
                                 )))
