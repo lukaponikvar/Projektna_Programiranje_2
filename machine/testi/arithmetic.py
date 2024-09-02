@@ -11,7 +11,7 @@ for projekt in projects:
         assert "Arithmetic" in [zaporedje["name"] for zaporedje in sequences]
         k = 10
         z = 0
-        for j in range(100):
+        for j in range(3):
             print(j)
             body = {
                 "range": {
@@ -20,19 +20,19 @@ for projekt in projects:
                     "step": 1,
                 },
                 "parameters": [z, k],
-                "sequences": [
-                    {
-                        "name": "Arithmetic",
-                        "parameters": [z, k],
-                        "sequences": [
-                            {
-                                "name": "Arithmetic",
-                                "parameters": [z, k],
-                                "sequences": [],
-                            }
-                        ],
-                    },
-                ],
+                "sequences": []
+                #     {
+                #         "name": "Arithmetic",
+                #         "parameters": [z, k],
+                #         "sequences": [
+                #             {
+                #                 "name": "Arithmetic",
+                #                 "parameters": [z, k],
+                #                 "sequences": [],
+                #             }
+                #         ],
+                #     },
+                # ],
             }
             print(j)
             r = requests.post(url + "/Arithmetic", json=body)

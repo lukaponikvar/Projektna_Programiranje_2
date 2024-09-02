@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use super::range::Range;
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SequenceSyntax {
@@ -19,6 +19,6 @@ pub struct SequenceRequest {
 pub struct SequenceInfo {
     pub name: String,
     pub description: String,
-    pub parameters: u32,
-    pub sequences: u32,
+    pub parameters: u64,
+    pub sequences: u64,
 }

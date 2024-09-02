@@ -15,25 +15,21 @@ impl Arithmetic {
             }
         )
     }
+
+    pub fn k_th(&self, k: u64) -> f64 {
+        self.start + (k as f64) * self.step
+    }
 }
 
 impl Sequence<f64> for Arithmetic {
-    fn k_th(&self, k: u64) -> f64 {
-        self.start + (k as f64) * self.step
-    }
 
     fn range(&self, range: Range) -> Vec<f64> {
         let mut result = Vec::new();
-        let mut k = range.from;
-        while k <= range.to {
-            result.push(self.k_th(k as u64));
-            k += range.step;
+        let mut index = range.from;
+        while index <= range.to {
+            result.push(self.k_th(index as u64));
+            index += range.step;
         }
         result
-    }
-
-    fn description(&self) -> String {
-        let mut description: String = String::from("Aritmetično zaporedje");
-        description
     }
 }

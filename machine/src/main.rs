@@ -1,12 +1,12 @@
 pub mod expressions;
-pub mod sequences;
 pub mod mathematical_functions;
+pub mod sequences;
 pub mod structs;
 
 use sequences::models::Sequence;
-use structs::sequences::{SequenceInfo, SequenceRequest, SequenceSyntax};
-use structs::range::Range;
 use structs::project::Project;
+use structs::range::Range;
+use structs::sequences::{SequenceInfo, SequenceRequest, SequenceSyntax};
 
 use std::net::SocketAddr;
 
@@ -26,15 +26,15 @@ fn sequences() -> Vec<SequenceInfo> {
     let mut sequences = Vec::new();
     sequences.push(SequenceInfo {
         name: "Arithmetic".to_string(),
-        description: "Arithmetic sequence".to_string(),
+        description: "Arithmetic sequence which takes two parameters: start and step.".to_string(),
         parameters: 2,
         sequences: 0,
     });
     sequences.push(SequenceInfo {
-        name: "Lin Comb".to_string(),
-        description: "".to_string(),
-        parameters: 3,
-        sequences: 2,
+        name: "Constant".to_string(),
+        description: "Constant sequence with a single parameter: value.".to_string(),
+        parameters: 1,
+        sequences: 0,
     });
     sequences
 }
@@ -112,44 +112,47 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let io = TokioIo::new(stream);
 
         tokio::task::spawn(async move {
-            let service = service_fn(move |req| {
-                async move {
-                    match (req.method(), req.uri().path()) {
-                        (&Method::GET, "/ping") => Ok::<_, Error>(Response::new(full(
-                            serde_json::to_string(&get_project()).unwrap(),
-                        ))),
-                        (&Method::GET, "/sequence") => {
-                            let sequences = sequences();
-                            Ok(Response::new(full(
-                                serde_json::to_string(&sequences).unwrap(),
-                            )))
-                        }
-                        (&Method::POST, r) => {
-                            let seqs = sequences();
-                            let sequence: Option<&SequenceInfo> = seqs
-                                .iter()
-                                .find(|&x| ("/sequence/".to_string() + &x.name) == r);
-                            match sequence {
-                                None => create_404(),
-                                Some(s) if *s.name == "Arithmetic".to_string() => {
-                                    let body = collect_body(req).await?;
-                                    let request: SequenceRequest =
-                                        serde_json::from_str(&body).unwrap();
-                                    let range = request.range;
-                                    let seq = sequences::arithmetic::Arithmetic::new(
-                                        request.parameters[0],
-                                        request.parameters[1],
-                                    );
-                                    Ok(Response::new(full(
-                                        serde_json::to_string(&seq.range(range)).unwrap(),
-                                    )))
-                                }
-                                _ => panic!("Not implemented"),
-                            }
-                        }
-
-                        _ => create_404(),
+            let service = service_fn(move |req| async move {
+                match (req.method(), req.uri().path()) {
+                    (&Method::GET, "/ping") => Ok::<_, Error>(Response::new(full(
+                        serde_json::to_string(&get_project()).unwrap(),
+                    ))),
+                    (&Method::GET, "/sequence") => {
+                        let sequences = sequences();
+                        Ok(Response::new(full(
+                            serde_json::to_string(&sequences).unwrap(),
+                        )))
                     }
+                    (&Method::POST, r) => {
+                        let seqs = sequences();
+                        let sequence: Option<&SequenceInfo> = seqs
+                            .iter()
+                            .find(|&x| ("/sequence/".to_string() + &x.name) == r);
+                        let body = collect_body(req).await?;
+                        let request: SequenceRequest = serde_json::from_str(&body).unwrap();
+                        let range = request.range;
+                        match sequence {
+                            None => create_404(),
+                            Some(s) if *s.name == "Arithmetic".to_string() => {
+                                let seq = sequences::arithmetic::Arithmetic::new(
+                                    request.parameters[0],
+                                    request.parameters[1],
+                                );
+                                Ok(Response::new(full(
+                                    serde_json::to_string(&seq.range(range)).unwrap(),
+                                )))
+                            }
+                            Some(s) if *s.name == "Constant".to_string() => {
+                                let seq = sequences::constant::Constant::new(request.parameters[0]);
+                                Ok(Response::new(full(
+                                    serde_json::to_string(&seq.range(range)).unwrap(),
+                                )))
+                            }
+                            _ => panic!("Not implemented"),
+                        }
+                    }
+
+                    _ => create_404(),
                 }
             });
 

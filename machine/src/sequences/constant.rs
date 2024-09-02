@@ -1,32 +1,19 @@
-use crate::sequences::models::Sequence;
+use super::models::Sequence;
+use crate::structs::range::Range;
 
-
-pub struct Constant<T> {
-    vrednost: T,
+pub struct Constant {
+    pub value: f64,
 }
 
-impl Constant<i64> {
-    pub fn new(vrednost: i64) -> Constant<i64> {
-        Constant{
-            vrednost,
-        }
+impl Constant {
+    pub fn new(value: f64) -> Box<Constant> {
+        Box::new(Constant { value })
     }
 }
-impl Sequence<i64> for Constant<i64> {
-    fn name(&self) -> String {
-        let niz = format!("Konstantno zaporedje {}", self.vrednost);
-        niz
-    }
 
-    fn start(&self) -> Option<i64> {
-        Some(self.vrednost)
-    }
-
-    fn k_th(&self, k: usize) -> Option<i64> {
-        Some(self.vrednost)
-    }
-
-    fn contains(&self, item: i64) -> bool {
-        self.vrednost == item
+impl Sequence<f64> for Constant {
+    fn range(&self, range: Range) -> Vec<f64> {
+        let result = vec![self.value; (range.to - range.from + 1) as usize];
+        result
     }
 }
