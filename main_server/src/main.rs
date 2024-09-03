@@ -23,10 +23,10 @@ pub struct PublicProject {
     pub port: u16,
 }
 
-/// Collects the body of a request. 
-/// 
+/// Collects the body of a request.
+///
 /// # Panics
-/// 
+///
 /// The function panics if the request is too big.
 async fn collect_body(req: Request<Incoming>) -> Result<String, hyper::Error> {
     let max = req.body().size_hint().upper().unwrap_or(u64::MAX);
@@ -75,7 +75,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     (&Method::GET, "/project") => {
                         let db = db.lock().unwrap();
                         let values = db.values().collect::<Vec<_>>();
-                        let value = serde_json::to_string(&values).unwrap();
+                        let value: String = serde_json::to_string(&values).unwrap();
                         println!("Returning: {:?}", value);
                         Ok::<_, Error>(Response::new(full(value)))
                     }

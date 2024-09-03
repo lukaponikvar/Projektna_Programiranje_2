@@ -1,13 +1,16 @@
 pub mod expressions;
+pub mod functions;
 pub mod mathematical_functions;
 pub mod sequences;
 pub mod structs;
 
+use functions::our_sequences::sequences;
 use sequences::models::Sequence;
 use structs::project::Project;
 use structs::range::Range;
 use structs::sequences::{SequenceInfo, SequenceRequest, SequenceSyntax};
 
+// use core::panicking::panic;
 use std::net::SocketAddr;
 
 use bytes::Bytes;
@@ -21,29 +24,6 @@ use hyper_util::rt::TokioIo;
 use tokio::net::TcpListener;
 
 const PORT: u16 = 12345;
-
-fn sequences() -> Vec<SequenceInfo> {
-    let mut sequences = Vec::new();
-    sequences.push(SequenceInfo {
-        name: "Arithmetic".to_string(),
-        description: "Arithmetic sequence which takes two parameters: start and step.".to_string(),
-        parameters: 2,
-        sequences: 0,
-    });
-    sequences.push(SequenceInfo {
-        name: "Constant".to_string(),
-        description: "Constant sequence with a single parameter: value.".to_string(),
-        parameters: 1,
-        sequences: 0,
-    });
-    sequences.push(SequenceInfo {
-        name: "Geometric".to_string(),
-        description: "Geometric sequence with two parameters: start and quotient.".to_string(),
-        parameters: 2,
-        sequences: 0,
-    });
-    sequences
-}
 
 fn get_project() -> Project {
     return Project {
@@ -144,24 +124,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                                     request.parameters[0],
                                     request.parameters[1],
                                 );
-                                Ok(Response::new(full(
-                                    serde_json::to_string(&seq.range(range)).unwrap(),
-                                )))
+                                let neki = &seq.range(range).await;
+                                Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
                             }
                             Some(s) if *s.name == "Constant".to_string() => {
                                 let seq = sequences::constant::Constant::new(request.parameters[0]);
-                                Ok(Response::new(full(
-                                    serde_json::to_string(&seq.range(range)).unwrap(),
-                                )))
+                                let neki = &seq.range(range).await;
+                                Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
                             }
                             Some(s) if *s.name == "Geometric".to_string() => {
                                 let seq = sequences::geometric::Geometric::new(
                                     request.parameters[0],
                                     request.parameters[1],
                                 );
-                                Ok(Response::new(full(
-                                    serde_json::to_string(&seq.range(range)).unwrap(),
-                                )))
+                                let neki = &seq.range(range).await;
+                                Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
+                            }
+                            Some(s) if *s.name == "Sum".to_string() => {
+                                let seq = sequences::sum::Sum::new(request.sequences);
+                                println!("tuki:\n{:#?}", seq.sequences);
+                                let neki = &seq.range(range).await;
+                                Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
                             }
                             _ => panic!("Not implemented"),
                         }

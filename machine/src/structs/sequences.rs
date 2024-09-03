@@ -1,7 +1,7 @@
 use super::range::Range;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SequenceSyntax {
     pub name: String,
     pub parameters: Vec<f64>,
