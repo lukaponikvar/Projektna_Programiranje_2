@@ -1,10 +1,7 @@
-use std::fmt::format;
-
 use std::error::Error;
 
-use crate::functions::our_sequences::sequences;
 use crate::structs::range::Range;
-use crate::structs::sequences::{SequenceInfo, SequenceRequest, SequenceSyntax};
+use crate::structs::sequences::{SequenceRequest, SequenceSyntax};
 
 async fn send_post(url: String, body: String) -> Result<String, reqwest::Error> {
     let client = reqwest::Client::new();

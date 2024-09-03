@@ -4,10 +4,9 @@ pub mod mathematical_functions;
 pub mod sequences;
 pub mod structs;
 
+use functions::eval::evall;
 use functions::our_sequences::sequences;
-use sequences::models::Sequence;
 use structs::project::Project;
-use structs::range::Range;
 use structs::sequences::{SequenceInfo, SequenceRequest, SequenceSyntax};
 
 // use core::panicking::panic;
@@ -111,43 +110,51 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     }
                     (&Method::POST, r) => {
                         let seqs = sequences();
-                        let sequence: Option<&SequenceInfo> = seqs
+                        let _sequence: Option<&SequenceInfo> = seqs
                             .iter()
                             .find(|&x| ("/sequence/".to_string() + &x.name) == r);
+                        let ime = r.to_string();
                         let body = collect_body(req).await?;
                         let request: SequenceRequest = serde_json::from_str(&body).unwrap();
                         let range = request.range;
-                        match sequence {
-                            None => create_404(),
-                            Some(s) if *s.name == "Arithmetic".to_string() => {
-                                let seq = sequences::arithmetic::Arithmetic::new(
-                                    request.parameters[0],
-                                    request.parameters[1],
-                                );
-                                let neki = &seq.range(range).await;
-                                Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
-                            }
-                            Some(s) if *s.name == "Constant".to_string() => {
-                                let seq = sequences::constant::Constant::new(request.parameters[0]);
-                                let neki = &seq.range(range).await;
-                                Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
-                            }
-                            Some(s) if *s.name == "Geometric".to_string() => {
-                                let seq = sequences::geometric::Geometric::new(
-                                    request.parameters[0],
-                                    request.parameters[1],
-                                );
-                                let neki = &seq.range(range).await;
-                                Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
-                            }
-                            Some(s) if *s.name == "Sum".to_string() => {
-                                let seq = sequences::sum::Sum::new(request.sequences);
-                                println!("tuki:\n{:#?}", seq.sequences);
-                                let neki = &seq.range(range).await;
-                                Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
-                            }
-                            _ => panic!("Not implemented"),
-                        }
+                        let s = evall(SequenceSyntax {
+                            name: ime,
+                            parameters: request.parameters,
+                            sequences: request.sequences,
+                        })
+                        .await;
+                        let neki = (*s).range(range);
+                        Ok(Response::new(full(serde_json::to_string(&neki).unwrap())))
+                        // match sequence {
+                        // None => create_404(),
+                        // Some(s) if *s.name == "Arithmetic".to_string() => {
+                        //     let seq = sequences::arithmetic::Arithmetic::new(
+                        //         request.parameters[0],
+                        //         request.parameters[1],
+                        //     );
+                        //     let neki = &seq.range(range);
+                        //     Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
+                        // }
+                        // Some(s) if *s.name == "Constant".to_string() => {
+                        //     let seq = sequences::constant::Constant::new(request.parameters[0]);
+                        //     let neki = &seq.range(range).await;
+                        //     Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
+                        // }
+                        // Some(s) if *s.name == "Geometric".to_string() => {
+                        //     let seq = sequences::geometric::Geometric::new(
+                        //         request.parameters[0],
+                        //         request.parameters[1],
+                        //     );
+                        //     let neki = &seq.range(range).await;
+                        //     Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
+                        // }
+                        // Some(s) if *s.name == "Sum".to_string() => {
+                        //     let seq = sequences::sum::Sum::new(request.sequences);
+                        //     let neki = &seq.range(range).await;
+                        //     Ok(Response::new(full(serde_json::to_string(neki).unwrap())))
+                        // }
+                        // _ => panic!("Not implemented"),
+                        // }
                     }
 
                     _ => create_404(),

@@ -1,6 +1,5 @@
 use super::models::Sequence;
 use crate::structs::range::Range;
-use hyper::Error;
 
 pub struct Arithmetic {
     pub start: f64,
@@ -18,7 +17,7 @@ impl Arithmetic {
 }
 
 impl Sequence<f64> for Arithmetic {
-    async fn range(&self, range: Range) -> Vec<f64> {
+    fn range(&self, range: Range) -> Vec<f64> {
         let mut result = Vec::new();
         let mut index = range.from;
         while index <= range.to {
