@@ -26,8 +26,6 @@ pub async fn get_list(seq: SequenceSyntax, range: Range) -> Result<Vec<f64>, Box
     // let sequence: Option<&SequenceInfo> = ours.iter().find(|&x| (x.name) == seq.name);
     // assert!(sequence.unwrap().parameters == seq.parameters.len() as u64);
     let response = send_post(url, serde_json::to_string(&body).unwrap()).await?;
-    println!("{:#?}", response);
     let parsed: Vec<f64> = serde_json::from_str(&response).unwrap();
-    println!("{:#?}", parsed);
     Ok(parsed)
 }
