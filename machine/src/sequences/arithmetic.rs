@@ -17,7 +17,7 @@ impl Arithmetic {
 }
 
 impl Sequence<f64, dyn Send> for Arithmetic {
-    fn range(&self, range: Range) -> Vec<f64> {
+    fn range(&self, range: &Range) -> Vec<f64> {
         let mut result = Vec::new();
         let mut index = range.from;
         while index <= range.to {
