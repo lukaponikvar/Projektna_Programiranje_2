@@ -17,3 +17,4 @@ hyper-util = { version = "0.1", features = ["full"] }
 reqwest = "0.12.4"
 hyper-tls = "0.6.0"
 async-recursion = "1.1.1"
+regex = "1.10.6"
