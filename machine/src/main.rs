@@ -7,7 +7,8 @@ pub mod structs;
 
 use communication::log_in::{get_project, log_in};
 use communication::other::{collect_body, empty, full};
-use communication::users::users;
+use communication::user_sequences::user_sequences;
+// use communication::users::users;
 use functions::eval::eval;
 use functions::get_name::get_name;
 use functions::our_sequences::sequences;
@@ -27,8 +28,8 @@ const PORT: u16 = 12345;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr: SocketAddr = ([127, 0, 0, 1], PORT).into();
 
-    let b = users().await;
-    println!("{:#?}", b);
+    let b = user_sequences().await;
+    println!("zaporedja: {:#?}", b);
 
     log_in(PORT).await;
 
@@ -66,7 +67,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         let body = collect_body(req).await?;
                         let request: SequenceRequest = serde_json::from_str(&body).unwrap();
                         let range = request.range;
-                        println!("to je ta{}", get_name(&ime));
                         let s = eval(SequenceSyntax {
                             name: get_name(&ime),
                             parameters: request.parameters,

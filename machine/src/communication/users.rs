@@ -1,10 +1,5 @@
+use crate::communication::get_and_post::send_get;
 use crate::structs::project::Project;
-
-async fn send_get(url: String) -> Result<String, reqwest::Error> {
-    let client = reqwest::Client::new();
-    let res = client.get(url).send().await?.text().await?;
-    return Ok(res);
-}
 
 ///Funkcija vrne seznam uporabnikov na glavnem strežniku.
 pub async fn users() -> Vec<Project> {

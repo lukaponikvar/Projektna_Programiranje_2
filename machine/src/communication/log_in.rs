@@ -1,10 +1,5 @@
+use crate::communication::get_and_post::send_post;
 use crate::structs::project::Project;
-
-async fn send_post(url: String, body: String) -> Result<String, reqwest::Error> {
-    let client = reqwest::Client::new();
-    let res = client.post(url).body(body).send().await?.text().await?;
-    return Ok(res);
-}
 
 pub fn get_project(port: u16) -> Project {
     return Project {
