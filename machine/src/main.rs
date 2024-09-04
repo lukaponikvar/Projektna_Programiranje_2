@@ -5,6 +5,7 @@ pub mod sequences;
 pub mod structs;
 
 use functions::eval::eval;
+use functions::get_name::get_name;
 use functions::our_sequences::sequences;
 use structs::project::Project;
 use structs::sequences::{SequenceInfo, SequenceRequest, SequenceSyntax};
@@ -117,8 +118,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         let body = collect_body(req).await?;
                         let request: SequenceRequest = serde_json::from_str(&body).unwrap();
                         let range = request.range;
+                        println!("to je ta{}", get_name(&ime));
                         let s = eval(SequenceSyntax {
-                            name: ime,
+                            name: get_name(&ime),
                             parameters: request.parameters,
                             sequences: request.sequences,
                         })

@@ -15,11 +15,11 @@ for projekt in projects:
             print(j)
             body = {
                 "range": {
-                    "from": j * 100,
-                    "to": (j + 1) * 100,
+                    "from": 0,
+                    "to": 3,
                     "step": 1,
                 },
-                "parameters": [z, k],
+                "parameters": [3, 2],
                 "sequences": []
                 #     {
                 #         "name": "Arithmetic",

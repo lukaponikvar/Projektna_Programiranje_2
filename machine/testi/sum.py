@@ -12,19 +12,19 @@ for projekt in projects:
         body = {
             "range": {
                 "from": 0,
-                "to": 0,
+                "to": 10,
                 "step": 1,
             },
             "parameters": [],
             "sequences": [
                 {
                     "name": "Arithmetic",
-                    "parameters": [1, 1],
+                    "parameters": [3, 2],
                     "sequences": [],
                 },
                 {
                     "name": "Arithmetic",
-                    "parameters": [3, 3],
+                    "parameters": [4, 2],
                     "sequences": [],
                 },
             ],
