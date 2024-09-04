@@ -6,8 +6,8 @@ pub mod sequences;
 pub mod structs;
 
 use communication::find_owner::find_owner;
-use communication::get_foreign_vector::get_foreign_vectors;
-use communication::log_in::{get_project, log_in};
+use communication::get_vector::get_vector;
+use communication::log_in::{log_in, make_project};
 use communication::other::{collect_body, empty, full};
 use communication::user_sequences::user_sequences;
 use communication::users::users;
@@ -39,7 +39,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let b = user_sequences().await;
     println!("zaporedja: {:#?}", b);
 
-    let a = get_foreign_vectors(
+    let a = get_vector(
         Range {
             from: 0,
             to: 10,
@@ -71,7 +71,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let service = service_fn(move |req| async move {
                 match (req.method(), req.uri().path()) {
                     (&Method::GET, "/ping") => Ok::<_, Error>(Response::new(full(
-                        serde_json::to_string(&get_project(PORT)).unwrap(),
+                        serde_json::to_string(&make_project(PORT)).unwrap(),
                     ))),
                     (&Method::GET, "/sequence") => {
                         let sequences = sequences();
