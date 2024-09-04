@@ -15,7 +15,7 @@ pub struct SequenceRequest {
     pub sequences: Vec<Box<SequenceSyntax>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub struct SequenceInfo {
     pub name: String,
     pub description: String,

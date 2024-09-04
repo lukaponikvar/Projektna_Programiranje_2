@@ -5,14 +5,17 @@ pub mod mathematical_functions;
 pub mod sequences;
 pub mod structs;
 
+use communication::find_owner::find_owner;
+use communication::get_foreign_vector::get_foreign_vectors;
 use communication::log_in::{get_project, log_in};
 use communication::other::{collect_body, empty, full};
 use communication::user_sequences::user_sequences;
-// use communication::users::users;
+use communication::users::users;
 use functions::eval::eval;
 use functions::get_name::get_name;
 use functions::our_sequences::sequences;
-use structs::sequences::{SequenceInfo, SequenceRequest, SequenceSyntax};
+use structs::range::Range;
+use structs::sequences::{SequenceRequest, SequenceSyntax};
 
 use std::net::SocketAddr;
 
@@ -28,10 +31,28 @@ const PORT: u16 = 12345;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr: SocketAddr = ([127, 0, 0, 1], PORT).into();
 
+    let a = users().await;
+    println!("{:#?}", a);
+
+    log_in(PORT).await;
+
     let b = user_sequences().await;
     println!("zaporedja: {:#?}", b);
 
-    log_in(PORT).await;
+    let a = get_foreign_vectors(
+        Range {
+            from: 0,
+            to: 10,
+            step: 1,
+        },
+        SequenceSyntax {
+            name: "Arithmetic".to_string(),
+            parameters: vec![1.0, 1.0],
+            sequences: Vec::new(),
+        },
+    )
+    .await;
+    println!("lastnik: {:#?}", a);
 
     let listener = TcpListener::bind(addr).await?;
     println!("Listening on http://{}", addr);
@@ -59,10 +80,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         )))
                     }
                     (&Method::POST, r) => {
-                        let seqs = sequences();
-                        let _sequence: Option<&SequenceInfo> = seqs
-                            .iter()
-                            .find(|&x| ("/sequence/".to_string() + &x.name) == r);
+                        // let seqs = sequences();
+                        // let _sequence: Option<&SequenceInfo> = seqs
+                        //     .iter()
+                        //     .find(|&x| ("/sequence/".to_string() + &x.name) == r);
                         let ime = r.to_string();
                         let body = collect_body(req).await?;
                         let request: SequenceRequest = serde_json::from_str(&body).unwrap();

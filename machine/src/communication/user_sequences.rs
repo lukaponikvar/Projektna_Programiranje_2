@@ -3,30 +3,28 @@ use crate::communication::users::users;
 use crate::structs::project::Project;
 use crate::structs::sequences::SequenceInfo;
 
-async fn user_sequence(project: Project) -> (Project, Vec<SequenceInfo>) {
+async fn user_sequence(project: Project) -> Vec<SequenceInfo> {
     let url = format!("http://{}:{}/sequence", project.ip, project.port);
     let response = send_get(url).await;
     let string = match response {
         Ok(s) => s,
-        Err(_) => return (project, Vec::new()),
+        Err(_) => return vec![],
     };
     let sequences = match serde_json::from_str(&string) {
         Ok(s) => s,
         Err(e) => panic!("{}", e),
     };
-    (project, sequences)
+    sequences
 }
 
-pub async fn user_sequences() -> Vec<(Project, Vec<SequenceInfo>)> {
+pub async fn user_sequences() -> (Vec<Project>, Vec<Vec<SequenceInfo>>) {
     let users: Vec<Project> = users().await;
-    let mut result = Vec::new();
+    let mut projects = Vec::new();
+    let mut sequences = Vec::new();
     for user in users {
-        let (project, sequence) = user_sequence(user).await;
-        if sequence.len() == 0 {
-            continue;
-        } else {
-            result.push((project, sequence));
-        }
+        let sequence = user_sequence(user.clone()).await;
+        projects.push(user);
+        sequences.push(sequence)
     }
-    result
+    (projects, sequences)
 }
