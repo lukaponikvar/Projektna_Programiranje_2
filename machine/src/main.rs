@@ -4,7 +4,7 @@ pub mod mathematical_functions;
 pub mod sequences;
 pub mod structs;
 
-use functions::eval::evall;
+use functions::eval::eval;
 use functions::our_sequences::sequences;
 use structs::project::Project;
 use structs::sequences::{SequenceInfo, SequenceRequest, SequenceSyntax};
@@ -117,13 +117,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         let body = collect_body(req).await?;
                         let request: SequenceRequest = serde_json::from_str(&body).unwrap();
                         let range = request.range;
-                        let s = evall(SequenceSyntax {
+                        let s = eval(SequenceSyntax {
                             name: ime,
                             parameters: request.parameters,
                             sequences: request.sequences,
                         })
                         .await;
-                        let neki = (*s).range(range);
+                        let neki = (*s).range(&range);
                         Ok(Response::new(full(serde_json::to_string(&neki).unwrap())))
                         // match sequence {
                         // None => create_404(),
