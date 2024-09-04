@@ -7,7 +7,10 @@ use crate::structs::sequences::{SequenceRequest, SequenceSyntax};
 ///Funkcija pridobi seznam členov zaporedja v odvisnosti od `range`.
 pub async fn get_vector(range: Range, sequence: SequenceSyntax) -> Vec<f64> {
     let owner: Project = find_owner(sequence.clone()).await;
-    let url = format!("http://{}:{}/sequence/{}", owner.ip, owner.port, owner.name);
+    let url = format!(
+        "http://{}:{}/sequence/{}",
+        owner.ip, owner.port, sequence.name
+    );
     let body = SequenceRequest {
         range,
         parameters: sequence.parameters,

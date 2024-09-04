@@ -5,7 +5,6 @@ pub mod mathematical_functions;
 pub mod sequences;
 pub mod structs;
 
-use communication::find_owner::find_owner;
 use communication::get_vector::get_vector;
 use communication::log_in::{log_in, make_project};
 use communication::other::{collect_body, empty, full};
@@ -47,7 +46,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         },
         SequenceSyntax {
             name: "Arithmetic".to_string(),
-            parameters: vec![1.0, 1.0],
+            parameters: vec![2.0, 7.0],
             sequences: Vec::new(),
         },
     )
