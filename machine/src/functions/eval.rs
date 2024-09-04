@@ -6,7 +6,7 @@ use async_recursion::async_recursion;
 
 #[async_recursion]
 pub async fn eval(syn: SequenceSyntax) -> Box<dyn Sequence<f64, dyn Send> + Send> {
-    let zaporedje: Box<dyn Sequence<f64, dyn Send> + Send> = match (syn).name.clone() {
+    let sequence: Box<dyn Sequence<f64, dyn Send> + Send> = match (syn).name.clone() {
         s if s == "Sum".to_string() => {
             let a = eval(*(syn.sequences[0].clone())).await;
             let b = eval(*(syn.sequences[1].clone())).await;
@@ -15,5 +15,5 @@ pub async fn eval(syn: SequenceSyntax) -> Box<dyn Sequence<f64, dyn Send> + Send
         s if s == "Arithmetic".to_string() => Arithmetic::new(syn.parameters[0], syn.parameters[1]),
         _ => Arithmetic::new(1.0, 1.0),
     };
-    zaporedje
+    sequence
 }

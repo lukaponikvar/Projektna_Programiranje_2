@@ -1,6 +1,7 @@
 use crate::structs::sequences::SequenceInfo;
 
-pub fn sequences() -> Vec<SequenceInfo> {
+///Funkcija vrne seznam najinih zaporedij.
+pub fn our_sequences() -> Vec<SequenceInfo> {
     let mut sequences = Vec::new();
     sequences.push(SequenceInfo {
         name: "Arithmetic".to_string(),

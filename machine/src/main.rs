@@ -12,7 +12,7 @@ use communication::user_sequences::user_sequences;
 use communication::users::users;
 use functions::eval::eval;
 use functions::get_name::get_name;
-use functions::our_sequences::sequences;
+use functions::our_sequences::our_sequences;
 use structs::range::Range;
 use structs::sequences::{SequenceRequest, SequenceSyntax};
 
@@ -73,7 +73,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         serde_json::to_string(&make_project(PORT)).unwrap(),
                     ))),
                     (&Method::GET, "/sequence") => {
-                        let sequences = sequences();
+                        let sequences = our_sequences();
                         Ok(Response::new(full(
                             serde_json::to_string(&sequences).unwrap(),
                         )))
