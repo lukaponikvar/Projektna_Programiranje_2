@@ -1,12 +1,9 @@
 use super::models::Sequence;
 use crate::structs::range::Range;
-// use std::error::Error;
 
 pub struct Sum {
     pub sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>,
 }
-
-// Vec<Box<&'a dyn Sequence<f64>>>
 
 impl Sum {
     pub fn new(sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>) -> Box<Sum> {
