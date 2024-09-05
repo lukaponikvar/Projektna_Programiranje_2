@@ -37,21 +37,21 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let b = user_sequences().await;
     println!("zaporedja: {:#?}", b);
-
-    let a = get_vector(
-        Range {
-            from: 0,
-            to: 10,
-            step: 1,
-        },
-        SequenceSyntax {
-            name: "Arithmetic".to_string(),
-            parameters: vec![2.0, 7.0],
-            sequences: Vec::new(),
-        },
-    )
-    .await;
-    println!("lastnik: {:#?}", a);
+    
+    // let a = get_vector(
+    //     Range {
+    //         from: 0,
+    //         to: 10,
+    //         step: 1,
+    //     },
+    //     SequenceSyntax {
+    //         name: "Arithmetic".to_string(),
+    //         parameters: vec![2.0, 7.0],
+    //         sequences: Vec::new(),
+    //     },
+    // )
+    // .await;
+    // println!("lastnik: {:#?}", a);
 
     let listener = TcpListener::bind(addr).await?;
     println!("Listening on http://{}", addr);
