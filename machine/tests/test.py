@@ -95,25 +95,25 @@ assert r.text == "[2.0,4.0,8.0,16.0]"
 #######################################################################################################################
 
 body = {
-            "range": {
-                "from": 0,
-                "to": 3,
-                "step": 1,
-            },
-            "parameters": [],
-            "sequences": [
-                {
-                    "name": "Arithmetic",
+    "range": {
+        "from": 0,
+        "to": 3,
+        "step": 1,
+    },
+    "parameters": [],
+    "sequences": [
+        {
+            "name": "Arithmetic",
                     "parameters": [3, 2],
                     "sequences": [],
-                },
-                {
-                    "name": "Constant",
+        },
+        {
+            "name": "Constant",
                     "parameters": [4],
                     "sequences": [],
-                },
-            ],
-        }
+        },
+    ],
+}
 r = requests.post(url + "Sum", json=body)
 assert r.text == "[7.0,9.0,11.0,13.0]"
 
@@ -122,25 +122,25 @@ assert r.text == "[7.0,9.0,11.0,13.0]"
 #######################################################################################################################
 
 body = {
-            "range": {
-                "from": 0,
-                "to": 3,
-                "step": 1,
-            },
-            "parameters": [],
-            "sequences": [
-                {
-                    "name": "Arithmetic",
+    "range": {
+        "from": 0,
+        "to": 3,
+        "step": 1,
+    },
+    "parameters": [],
+    "sequences": [
+        {
+            "name": "Arithmetic",
                     "parameters": [1, 2],
                     "sequences": [],
-                },
-                {
-                    "name": "Constant",
+        },
+        {
+            "name": "Constant",
                     "parameters": [2],
                     "sequences": [],
-                },
-            ],
-        }
+        },
+    ],
+}
 r = requests.post(url + "Product", json=body)
 assert r.text == "[2.0,6.0,10.0,14.0]"
 # print(r.text)

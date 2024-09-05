@@ -5,7 +5,7 @@ pub mod mathematical_functions;
 pub mod sequences;
 pub mod structs;
 
-use communication::get_vector::get_vector;
+// use communication::get_vector::get_vector;
 use communication::log_in::{log_in, make_project};
 use communication::other::{collect_body, empty, full};
 use communication::user_sequences::user_sequences;
@@ -13,7 +13,7 @@ use communication::users::users;
 use functions::eval::eval;
 use functions::get_name::get_name;
 use functions::our_sequences::our_sequences;
-use structs::range::Range;
+// use structs::range::Range;
 use structs::sequences::{SequenceRequest, SequenceSyntax};
 
 use std::net::SocketAddr;
@@ -37,7 +37,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let b = user_sequences().await;
     println!("zaporedja: {:#?}", b);
-    
+
     // let a = get_vector(
     //     Range {
     //         from: 0,
@@ -93,6 +93,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                             sequences: request.sequences,
                         })
                         .await;
+                        // println!("khjn{}", (*s).sequences.len());
                         let neki = (*s).range(&range);
                         Ok(Response::new(full(serde_json::to_string(&neki).unwrap())))
                     }
