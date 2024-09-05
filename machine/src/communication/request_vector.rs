@@ -1,18 +1,23 @@
-use super::find_owner::find_owner;
+use std::os::windows::raw::SOCKET;
+
+use super::find_owners::find_owners;
 use super::get_and_post::send_post;
 use crate::structs::project::Project;
 use crate::structs::range::Range;
 use crate::structs::sequences::{SequenceRequest, SequenceSyntax};
 
 ///Funkcija pridobi seznam členov zaporedja v odvisnosti od `range`.
-pub async fn get_vector(range: Range, sequence: SequenceSyntax, register_ip: [u8; 4]) -> Vec<f64> {
-    let owner: Project = find_owner(sequence.clone(), register_ip).await;
+pub async fn request_vector(
+    range: &Range,
+    sequence: SequenceSyntax,
+    owner: Project,
+) -> Option<Vec<f64>> {
     let url = format!(
         "http://{}:{}/sequence/{}",
         owner.ip, owner.port, sequence.name
     );
     let body = SequenceRequest {
-        range,
+        range: range.clone(),
         parameters: sequence.parameters,
         sequences: sequence.sequences,
     };
@@ -28,5 +33,7 @@ pub async fn get_vector(range: Range, sequence: SequenceSyntax, register_ip: [u8
         Ok(b) => b,
         Err(e) => panic!("{}", e),
     };
-    result
+    Some(result)
 }
+
+//TODO: Ne se sesut, če ne dobiš od nekoga odgovora
