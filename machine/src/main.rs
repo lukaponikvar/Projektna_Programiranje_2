@@ -92,12 +92,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         let body = collect_body(req).await?;
                         let request: SequenceRequest = serde_json::from_str(&body).unwrap();
                         let name = get_name(&path);
-                        if expected(&request, &name) {
-                            let syn = SequenceSyntax {
-                                name,
-                                parameters: request.parameters,
-                                sequences: request.sequences,
-                            };
+                        let syn = SequenceSyntax {
+                            name,
+                            parameters: request.parameters,
+                            sequences: request.sequences,
+                        };
+                        if expected(&syn) {
                             create_200(
                                 serde_json::to_string(&(get_range(syn, &request.range).await))
                                     .expect("Tule sem"),
