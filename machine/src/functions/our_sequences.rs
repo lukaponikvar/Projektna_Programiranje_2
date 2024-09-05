@@ -22,10 +22,25 @@ pub fn our_sequences() -> Vec<SequenceInfo> {
         sequences: 0,
     });
     sequences.push(SequenceInfo {
-        name: "Sum".to_string(),
-        description: "Sum sequence with two parameters: start and quotient.".to_string(),
-        parameters: 0,
+        name: "Drop".to_string(),
+        description: "A sequence which takes a sequence and a shift parameter and is 
+        equivalent to shifting that particular sequence by the given amount."
+            .to_string(),
+        parameters: 1,
         sequences: 1,
+    });
+    sequences.push(SequenceInfo {
+        name: "Sum".to_string(),
+        description: "A sequence that takes two sequences and adds them term by term.".to_string(),
+        parameters: 0,
+        sequences: 2,
+    });
+    sequences.push(SequenceInfo {
+        name: "Product".to_string(),
+        description: "A sequence that takes two sequences and multiplies them term by term."
+            .to_string(),
+        parameters: 0,
+        sequences: 2,
     });
     sequences
 }

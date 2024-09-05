@@ -6,16 +6,17 @@ pub mod sequences;
 pub mod structs;
 
 // use communication::get_vector::get_vector;
-use communication::log_in::{log_in, make_project};
-use communication::other::{collect_body, empty, full};
-use communication::user_sequences::user_sequences;
-use communication::users::users;
-use functions::eval::eval;
-use functions::get_ip::get_ip;
-use functions::get_name::get_name;
-use functions::get_port::get_port;
-use functions::get_range::get_range;
-use functions::our_sequences::our_sequences;
+use communication::{
+    expected::expected,
+    http_handling::{collect_body, create_200, create_400, create_404},
+    log_in::{log_in, make_project},
+    user_sequences::user_sequences,
+    users::users,
+};
+use functions::{
+    get_ip::get_ip, get_name::get_name, get_port::get_port, get_range::get_range,
+    our_sequences::our_sequences,
+};
 // use structs::range::Range;
 use structs::sequences::{SequenceRequest, SequenceSyntax};
 
@@ -23,7 +24,7 @@ use std::net::SocketAddr;
 
 use hyper::server::conn::http1;
 use hyper::service::service_fn;
-use hyper::{Error, Method, Response, StatusCode};
+use hyper::Method;
 use hyper_util::rt::TokioIo;
 use std::env;
 use tokio::net::TcpListener;
@@ -67,11 +68,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let listener = TcpListener::bind(generator_address).await?;
     println!("Listening on http://{}", generator_address);
 
-    let create_404 = || {
-        let mut not_found = Response::new(empty());
-        *not_found.status_mut() = StatusCode::NOT_FOUND;
-        Ok(not_found)
-    };
+    // let create_404 = || {
+    //     let mut not_found = Response::new(empty());
+    //     *not_found.status_mut() = StatusCode::NOT_FOUND;
+    //     Ok(not_found)
+    // };
 
     loop {
         let (stream, _) = listener.accept().await?;
@@ -80,27 +81,30 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         tokio::task::spawn(async move {
             let service = service_fn(move |req| async move {
                 match (req.method(), req.uri().path()) {
-                    (&Method::GET, "/ping") => Ok::<_, Error>(Response::new(full(
-                        serde_json::to_string(&make_project(port)).unwrap(),
-                    ))),
+                    (&Method::GET, "/ping") => {
+                        create_200(serde_json::to_string(&make_project(port)).unwrap())
+                    }
                     (&Method::GET, "/sequence") => {
-                        let sequences = our_sequences();
-                        Ok(Response::new(full(
-                            serde_json::to_string(&sequences).unwrap(),
-                        )))
+                        create_200(serde_json::to_string(&our_sequences()).unwrap())
                     }
                     (&Method::POST, r) => {
                         let path = r.to_string();
                         let body = collect_body(req).await?;
                         let request: SequenceRequest = serde_json::from_str(&body).unwrap();
-                        let syn = SequenceSyntax {
-                            name: get_name(&path),
-                            parameters: request.parameters,
-                            sequences: request.sequences,
-                        };
-                        Ok(Response::new(full(
-                            serde_json::to_string(&(get_range(syn, &request.range).await)).unwrap(),
-                        )))
+                        let name = get_name(&path);
+                        if expected(&request, &name) {
+                            let syn = SequenceSyntax {
+                                name,
+                                parameters: request.parameters,
+                                sequences: request.sequences,
+                            };
+                            create_200(
+                                serde_json::to_string(&(get_range(syn, &request.range).await))
+                                    .expect("Tule sem"),
+                            )
+                        } else {
+                            create_400("".to_string())
+                        }
                     }
 
                     _ => create_404(),
