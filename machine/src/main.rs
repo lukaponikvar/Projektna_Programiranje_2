@@ -14,7 +14,7 @@ use communication::{
     users::users,
 };
 use functions::{
-    get_ip::get_ip, get_name::get_name, get_port::get_port, get_range::get_range,
+    get_ip::get_ip, get_name::get_name, get_port::get_port, get_vector::get_range,
     our_sequences::our_sequences,
 };
 // use structs::range::Range;
