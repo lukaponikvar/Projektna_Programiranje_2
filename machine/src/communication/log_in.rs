@@ -11,9 +11,12 @@ pub fn make_project(port: u16) -> Project {
 }
 
 ///Funkcija naju prijavi v glavni strežnik.
-pub async fn log_in(port: u16) {
+pub async fn log_in(register_ip: [u8; 4], port: u16) {
     let result = send_post(
-        "http://127.0.0.1:7878/generator".to_string(),
+        format!(
+            "http://{}.{}.{}.{}:7878/generator",
+            register_ip[0], register_ip[1], register_ip[2], register_ip[3]
+        ),
         serde_json::to_string(&make_project(port)).unwrap(),
     )
     .await;

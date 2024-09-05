@@ -18,8 +18,8 @@ async fn user_sequence(project: Project) -> Vec<SequenceInfo> {
 }
 
 ///Funkcija od vseh uporabnikov pridobi vsa njihova zaporedja.
-pub async fn user_sequences() -> (Vec<Project>, Vec<Vec<SequenceInfo>>) {
-    let users: Vec<Project> = users().await;
+pub async fn user_sequences(register_ip: [u8; 4]) -> (Vec<Project>, Vec<Vec<SequenceInfo>>) {
+    let users: Vec<Project> = users(register_ip).await;
     let mut projects = Vec::new();
     let mut all_sequences = Vec::new();
     for user in users {

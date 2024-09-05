@@ -5,8 +5,8 @@ use crate::structs::range::Range;
 use crate::structs::sequences::{SequenceRequest, SequenceSyntax};
 
 ///Funkcija pridobi seznam členov zaporedja v odvisnosti od `range`.
-pub async fn get_vector(range: Range, sequence: SequenceSyntax) -> Vec<f64> {
-    let owner: Project = find_owner(sequence.clone()).await;
+pub async fn get_vector(range: Range, sequence: SequenceSyntax, register_ip: [u8; 4]) -> Vec<f64> {
+    let owner: Project = find_owner(sequence.clone(), register_ip).await;
     let url = format!(
         "http://{}:{}/sequence/{}",
         owner.ip, owner.port, sequence.name
