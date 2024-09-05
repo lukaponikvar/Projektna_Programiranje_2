@@ -14,6 +14,7 @@ use functions::eval::eval;
 use functions::get_ip::get_ip;
 use functions::get_name::get_name;
 use functions::get_port::get_port;
+use functions::get_range::get_range;
 use functions::our_sequences::our_sequences;
 // use structs::range::Range;
 use structs::sequences::{SequenceRequest, SequenceSyntax};
@@ -89,23 +90,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         )))
                     }
                     (&Method::POST, r) => {
-                        // let seqs = sequences();
-                        // let _sequence: Option<&SequenceInfo> = seqs
-                        //     .iter()
-                        //     .find(|&x| ("/sequence/".to_string() + &x.name) == r);
-                        let ime = r.to_string();
+                        let path = r.to_string();
                         let body = collect_body(req).await?;
                         let request: SequenceRequest = serde_json::from_str(&body).unwrap();
-                        let range = request.range;
-                        let s = eval(SequenceSyntax {
-                            name: get_name(&ime),
+                        let syn = SequenceSyntax {
+                            name: get_name(&path),
                             parameters: request.parameters,
                             sequences: request.sequences,
-                        })
-                        .await;
-                        // println!("khjn{}", (*s).sequences.len());
-                        let neki = (*s).range(&range);
-                        Ok(Response::new(full(serde_json::to_string(&neki).unwrap())))
+                        };
+                        Ok(Response::new(full(
+                            serde_json::to_string(&(get_range(syn, &request.range).await)).unwrap(),
+                        )))
                     }
 
                     _ => create_404(),
