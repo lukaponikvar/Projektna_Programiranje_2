@@ -72,14 +72,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let db: Arc<Mutex<HashMap<String, PublicProject>>> = db.clone();
             async move {
                 match (req.method(), req.uri().path()) {
-                    (&Method::GET, "/project") => {
+                    (&Method::GET, "/generator") => {
                         let db = db.lock().unwrap();
                         let values = db.values().collect::<Vec<_>>();
                         let value: String = serde_json::to_string(&values).unwrap();
                         println!("Returning: {:?}", value);
                         Ok::<_, Error>(Response::new(full(value)))
                     }
-                    (&Method::POST, "/project") => {
+                    (&Method::POST, "/generator") => {
                         let body = collect_body(req).await?;
                         let project: PublicProject = serde_json::from_str(&body).unwrap();
                         let mut db = db.lock().unwrap();
