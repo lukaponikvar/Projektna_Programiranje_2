@@ -15,12 +15,12 @@ pub fn our_sequences() -> Vec<SequenceInfo> {
         parameters: 1,
         sequences: 0,
     });
-    sequences.push(SequenceInfo {
-        name: "Geometric".to_string(),
-        description: "Geometric sequence with two parameters: start and quotient.".to_string(),
-        parameters: 2,
-        sequences: 0,
-    });
+    // sequences.push(SequenceInfo {
+    //     name: "Geometric".to_string(),
+    //     description: "Geometric sequence with two parameters: start and quotient.".to_string(),
+    //     parameters: 2,
+    //     sequences: 0,
+    // });
     sequences.push(SequenceInfo {
         name: "Drop".to_string(),
         description: "A sequence which takes a sequence and a shift parameter and is 

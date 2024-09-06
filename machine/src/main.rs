@@ -97,29 +97,34 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                             parameters: request.parameters,
                             sequences: request.sequences,
                         };
-                        if expected(&syn) {
-                            if check_sequences(&syn) {
-                                create_200(
-                                    serde_json::to_string(&(get_vector(syn, &request.range).await))
-                                        .expect("Tule sem"),
-                                )
-                            } else {
-                                let (projects, all_sequences) = user_sequences(register_ip).await;
-                                create_200(
-                                    serde_json::to_string(
-                                        &(get_foreign_vector(
-                                            syn,
-                                            &request.range,
-                                            projects,
-                                            all_sequences,
+                        match expected(&syn) {
+                            Ok(_) => {
+                                println!("Je pričakovano");
+                                if check_sequences(&syn) {
+                                    create_200(
+                                        serde_json::to_string(
+                                            &(get_vector(syn, &request.range).await),
                                         )
-                                        .await),
+                                        .expect("Tule sem"),
                                     )
-                                    .expect("Tule sem"),
-                                )
+                                } else {
+                                    let (projects, all_sequences) =
+                                        user_sequences(register_ip).await;
+                                    create_200(
+                                        serde_json::to_string(
+                                            &(get_foreign_vector(
+                                                syn,
+                                                &request.range,
+                                                projects,
+                                                all_sequences,
+                                            )
+                                            .await),
+                                        )
+                                        .expect("Tule sem"),
+                                    )
+                                }
                             }
-                        } else {
-                            create_400("".to_string())
+                            Err(e) => create_400(e.message),
                         }
                     }
 
