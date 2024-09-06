@@ -89,11 +89,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     }
                     (&Method::POST, r) => {
                         let path = r.to_string();
-                        let body = collect_body(req).await?;
-                        let request: SequenceRequest = serde_json::from_str(&body).unwrap();
+                        let body = collect_body(req).await;
+                        let request: SequenceRequest =
+                            serde_json::from_str(&body.expect("")).unwrap();
                         let name = get_name(&path);
                         let syn = SequenceSyntax {
-                            name,
+                            name: name.expect(""),
                             parameters: request.parameters,
                             sequences: request.sequences,
                         };

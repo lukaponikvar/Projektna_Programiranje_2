@@ -5,20 +5,32 @@ use hyper::{
     Error, Request, Response, StatusCode,
 };
 
+use crate::structs::custom_error::CustomError;
+
 fn full<T: Into<Bytes>>(chunk: T) -> BoxBody<Bytes, hyper::Error> {
     Full::new(chunk.into())
         .map_err(|never| match never {})
         .boxed()
 }
-pub async fn collect_body(req: Request<Incoming>) -> Result<String, hyper::Error> {
+
+///Funkcija iz `html` zahteve izlušči in vrne telo.
+///
+/// ## Errors
+/// V primeru napake, jo vrne.
+pub async fn collect_body(req: Request<Incoming>) -> Result<String, CustomError> {
     let max = req.body().size_hint().upper().unwrap_or(u64::MAX);
     if max > 1024 * 64 {
         panic!("Body too big");
     }
 
-    let whole_body = req.collect().await?.to_bytes();
-    let whole_body = std::str::from_utf8(&whole_body).unwrap().to_string();
-    return Ok(whole_body);
+    let whole_body = match req.collect().await {
+        Ok(m) => m.to_bytes(),
+        Err(e) => return Err(CustomError::new(e.to_string())),
+    };
+    match std::str::from_utf8(&whole_body) {
+        Ok(b) => Ok(b.to_string()),
+        Err(e) => Err(CustomError::new(e.to_string())),
+    }
 }
 
 fn empty() -> BoxBody<Bytes, hyper::Error> {
