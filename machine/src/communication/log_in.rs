@@ -29,7 +29,9 @@ pub async fn log_in(register_ip: [u8; 4], port: u16) {
     .await;
     match result {
         Ok(_) => (),
-        Err(e) => panic!("{}", e),
+        Err(e) => {
+            println!("{}", e.to_string());
+        }
     }
 }
 

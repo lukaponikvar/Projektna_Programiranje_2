@@ -19,15 +19,15 @@ pub fn expected(syn: &SequenceSyntax) -> Result<bool, CustomError> {
     };
     if our_sequences[index].parameters as usize != syn.parameters.len() {
         return Err(CustomError::new(format!(
-                "Requested an invalid sequence.\nSequence name does match one of ours, 
-                nevertheless number of given parameters: {} is not equal to the required number of parameters: {}.\n", 
+                "Requested an invalid sequence.\nSequence name: {} does match one of ours, nevertheless number of given parameters: {} is not equal to the required number of parameters: {}.\n", 
+                syn.name, 
                 syn.parameters.len(),
                 our_sequences[index].parameters
         )),);
     } else if our_sequences[index].sequences as usize != syn.sequences.len() {
         return Err(CustomError::new(format!(
-                "Requested an invalid sequence.\nSequence name does match one of ours, 
-                nevertheless number of given sequences: {} is not equal to the required number of sequences: {}.\n", 
+                "Requested an invalid sequence.\nSequence name: {} does match one of ours, nevertheless number of given sequences: {} is not equal to the required number of sequences: {}.\n",
+                syn.name, 
                 syn.sequences.len(),
                 our_sequences[index].sequences
             ),

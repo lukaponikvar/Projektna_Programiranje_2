@@ -104,7 +104,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                                 if check_sequences(&syn) {
                                     create_200(
                                         serde_json::to_string(
-                                            &(get_vector(syn, &request.range).await),
+                                            &(get_vector(syn, &request.range).await.expect("msg")),
                                         )
                                         .expect("Tule sem"),
                                     )
@@ -119,7 +119,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                                                 projects,
                                                 all_sequences,
                                             )
-                                            .await),
+                                            .await
+                                            .expect("msg")),
                                         )
                                         .expect("Tule sem"),
                                     )

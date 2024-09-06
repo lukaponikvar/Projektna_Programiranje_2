@@ -20,7 +20,7 @@ fn full<T: Into<Bytes>>(chunk: T) -> BoxBody<Bytes, hyper::Error> {
 pub async fn collect_body(req: Request<Incoming>) -> Result<String, CustomError> {
     let max = req.body().size_hint().upper().unwrap_or(u64::MAX);
     if max > 1024 * 64 {
-        panic!("Body too big");
+        return Err(CustomError::new("Body too big".to_string()));
     }
 
     let whole_body = match req.collect().await {
@@ -67,4 +67,14 @@ pub fn create_400(str: String) -> Result<Response<BoxBody<Bytes, Error>>, Error>
 pub fn create_200<T: Into<Bytes>>(str: T) -> Result<Response<BoxBody<Bytes, Error>>, Error> {
     let ok = Response::new(full(str));
     Ok(ok)
+}
+
+/// The function signals the client that an error had been detected on their behalf.
+///
+/// The `500 (Internal server error)` status code indicates that the server cannot or will not process the request
+///  due to something that is perceived to be a client error.
+pub fn create_500(str: String) -> Result<Response<BoxBody<Bytes, Error>>, Error> {
+    let mut server_error = Response::new(full(str));
+    *server_error.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+    Ok(server_error)
 }

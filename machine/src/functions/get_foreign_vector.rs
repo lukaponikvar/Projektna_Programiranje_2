@@ -1,4 +1,3 @@
-use core::panic;
 use cosmwasm_std::testing::mock_env;
 use nois::{randomness_simulator, shuffle};
 
@@ -8,6 +7,7 @@ use crate::sequences::arithmetic::Arithmetic;
 use crate::sequences::constant::Constant;
 use crate::sequences::geometric::Geometric;
 use crate::sequences::models::Sequence;
+use crate::structs::custom_error::CustomError;
 use crate::structs::project::Project;
 use crate::structs::range::Range;
 use crate::structs::sequences::{SequenceInfo, SequenceSyntax};
@@ -19,7 +19,7 @@ pub async fn get_foreign_vector(
     range: &Range,
     users: Vec<Project>,
     all_sequences: Vec<Vec<SequenceInfo>>,
-) -> Vec<f64> {
+) -> Result<Vec<f64>, CustomError> {
     let sequence: Vec<f64> = match (syn).name.clone() {
         s if s == "Constant".to_string() => Constant::new(syn.parameters[0]).range(&range),
         s if s == "Arithmetic".to_string() => {
@@ -31,15 +31,18 @@ pub async fn get_foreign_vector(
         s if s == "Sum".to_string() => {
             let mut sequences = Vec::new();
             for seq in syn.sequences {
-                sequences.push(
-                    get_foreign_vector(
-                        *(seq.clone()),
-                        &range,
-                        users.clone(),
-                        all_sequences.clone(),
-                    )
-                    .await,
-                );
+                let vector = match get_foreign_vector(
+                    *(seq.clone()),
+                    &range,
+                    users.clone(),
+                    all_sequences.clone(),
+                )
+                .await
+                {
+                    Ok(s) => s,
+                    Err(e) => return Err(CustomError::new(e.to_string())),
+                };
+                sequences.push(vector);
             }
             let size: usize = (range.to - range.from + 1) as usize;
             if sequences.len() == 0 {
@@ -57,15 +60,18 @@ pub async fn get_foreign_vector(
         s if s == "Product".to_string() => {
             let mut sequences = Vec::new();
             for seq in syn.sequences {
-                sequences.push(
-                    get_foreign_vector(
-                        *(seq.clone()),
-                        &range,
-                        users.clone(),
-                        all_sequences.clone(),
-                    )
-                    .await,
-                );
+                let vector = match get_foreign_vector(
+                    *(seq.clone()),
+                    &range,
+                    users.clone(),
+                    all_sequences.clone(),
+                )
+                .await
+                {
+                    Ok(s) => s,
+                    Err(e) => return Err(CustomError::new(e.to_string())),
+                };
+                sequences.push(vector);
             }
             let size: usize = (range.to - range.from + 1) as usize;
             if sequences.len() == 0 {
@@ -81,7 +87,7 @@ pub async fn get_foreign_vector(
             }
         }
         s if s == "Drop".to_string() => {
-            get_foreign_vector(
+            return get_foreign_vector(
                 *(syn.sequences[0]).clone(),
                 &Range {
                     from: range.from + syn.parameters[0] as u64,
@@ -99,14 +105,19 @@ pub async fn get_foreign_vector(
             for owner in random_owners.into_iter() {
                 let possible_vector = request_vector(range, syn.clone(), owner).await;
                 match possible_vector {
-                    Some(s) => return s,
-                    None => continue,
+                    Ok(s) => return Ok(s),
+                    Err(_) => continue,
                 }
             }
-            panic!("Nobody talks to us :(")
+            return Err(CustomError::new(format!(
+                "Sequence: {}, with {} parameters and {} sequences not found.",
+                syn.name,
+                syn.parameters.len(),
+                syn.sequences.len()
+            )));
         }
     };
-    sequence
+    Ok(sequence)
 }
 
 //TODO: Nehaj klonirat in začni uporabljati lifetime
