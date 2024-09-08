@@ -13,7 +13,7 @@ impl Constant {
 
 impl Sequence<f64, dyn Send> for Constant {
     fn range(&self, range: &Range) -> Vec<f64> {
-        let result = vec![self.value; (range.to - range.from + 1) as usize];
+        let result = vec![self.value; (range.to - range.from) as usize];
         result
     }
 }

@@ -14,7 +14,7 @@ impl Product {
 impl Sequence<f64, dyn Send> for Product {
     fn range(&self, range: &Range) -> Vec<f64> {
         println!("prod{}", self.sequences.len());
-        let size: usize = (range.to - range.from + 1) as usize;
+        let size: usize = (range.to - range.from) as usize;
         if self.sequences.len() == 0 {
             vec![1.0; size]
         } else {

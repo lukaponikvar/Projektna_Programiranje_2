@@ -37,7 +37,7 @@ pub async fn get_foreign_vector(
                 };
                 sequences.push(vector);
             }
-            let size: usize = (range.to - range.from + 1) as usize;
+            let size: usize = (range.to - range.from) as usize;
             if sequences.len() == 0 {
                 vec![0.0; size]
             } else {
@@ -59,7 +59,7 @@ pub async fn get_foreign_vector(
                 };
                 sequences.push(vector);
             }
-            let size: usize = (range.to - range.from + 1) as usize;
+            let size: usize = (range.to - range.from) as usize;
             if sequences.len() == 0 {
                 vec![1.0; size]
             } else {

@@ -37,6 +37,6 @@ pub async fn log_in(register_ip: [u8; 4], port: u16) {
 
 //TODO: Javljanje napak naj bo koristno! (sledi navodilom na spletni strani)
 //TODO: Jezik komunikacije naj bo angleščina
-//TODO: Popravi, da vrača zaporedje dolgo: (to - from) / step
 //TODO: Koda naj deluje z ali brez / na koncu url-ja
 //TODO: Preglej, katere funkcije ne potrebujejo zares lastništva in jim daj raje referenco
+//TODO: preveri ali so poslali pravi vektor
