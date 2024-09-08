@@ -8,7 +8,7 @@ use crate::structs::sequences::{SequenceRequest, SequenceSyntax};
 pub async fn request_vector(
     range: &Range,
     sequence: SequenceSyntax,
-    owner: Project,
+    owner: &Project,
 ) -> Result<Vec<f64>, CustomError> {
     let url = format!(
         "http://{}:{}/sequence/{}",

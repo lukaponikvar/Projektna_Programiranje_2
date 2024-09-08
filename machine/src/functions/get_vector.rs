@@ -8,7 +8,7 @@ use crate::structs::sequences::SequenceSyntax;
 use async_recursion::async_recursion;
 
 #[async_recursion]
-pub async fn get_vector(syn: SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
+pub async fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
     let sequence: Vec<f64> = match (syn).name.clone() {
         s if s == "Constant".to_string() => Constant::new(syn.parameters[0]).range(&range),
         s if s == "Arithmetic".to_string() => {
@@ -19,8 +19,8 @@ pub async fn get_vector(syn: SequenceSyntax, range: &Range) -> Result<Vec<f64>, 
         }
         s if s == "Sum".to_string() => {
             let mut sequences = Vec::new();
-            for seq in syn.sequences {
-                let vector = match get_vector(*(seq.clone()), &range).await {
+            for seq in &syn.sequences {
+                let vector = match get_vector(&*seq, &range).await {
                     Ok(s) => s,
                     Err(e) => return Err(CustomError::new(e.to_string())),
                 };
@@ -41,8 +41,8 @@ pub async fn get_vector(syn: SequenceSyntax, range: &Range) -> Result<Vec<f64>, 
         }
         s if s == "Product".to_string() => {
             let mut sequences = Vec::new();
-            for seq in syn.sequences {
-                let vector = match get_vector(*(seq.clone()), &range).await {
+            for seq in &syn.sequences {
+                let vector = match get_vector(&*seq, &range).await {
                     Ok(s) => s,
                     Err(e) => return Err(CustomError::new(e.to_string())),
                 };
@@ -63,7 +63,7 @@ pub async fn get_vector(syn: SequenceSyntax, range: &Range) -> Result<Vec<f64>, 
         }
         s if s == "Drop".to_string() => {
             return get_vector(
-                *(syn.sequences[0]).clone(),
+                &*(syn.sequences[0]),
                 &Range {
                     from: range.from + syn.parameters[0] as u64,
                     to: range.to + syn.parameters[0] as u64,

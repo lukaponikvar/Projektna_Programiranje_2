@@ -15,7 +15,7 @@ use async_recursion::async_recursion;
 
 #[async_recursion]
 pub async fn get_foreign_vector(
-    syn: SequenceSyntax,
+    syn: &SequenceSyntax,
     range: &Range,
     users: Vec<Project>,
     all_sequences: Vec<Vec<SequenceInfo>>,
@@ -30,18 +30,14 @@ pub async fn get_foreign_vector(
         }
         s if s == "Sum".to_string() => {
             let mut sequences = Vec::new();
-            for seq in syn.sequences {
-                let vector = match get_foreign_vector(
-                    *(seq.clone()),
-                    &range,
-                    users.clone(),
-                    all_sequences.clone(),
-                )
-                .await
-                {
-                    Ok(s) => s,
-                    Err(e) => return Err(CustomError::new(e.to_string())),
-                };
+            for seq in &syn.sequences {
+                let vector =
+                    match get_foreign_vector(&*seq, &range, users.clone(), all_sequences.clone())
+                        .await
+                    {
+                        Ok(s) => s,
+                        Err(e) => return Err(CustomError::new(e.to_string())),
+                    };
                 sequences.push(vector);
             }
             let size: usize = (range.to - range.from + 1) as usize;
@@ -59,18 +55,14 @@ pub async fn get_foreign_vector(
         }
         s if s == "Product".to_string() => {
             let mut sequences = Vec::new();
-            for seq in syn.sequences {
-                let vector = match get_foreign_vector(
-                    *(seq.clone()),
-                    &range,
-                    users.clone(),
-                    all_sequences.clone(),
-                )
-                .await
-                {
-                    Ok(s) => s,
-                    Err(e) => return Err(CustomError::new(e.to_string())),
-                };
+            for seq in &syn.sequences {
+                let vector =
+                    match get_foreign_vector(&*seq, &range, users.clone(), all_sequences.clone())
+                        .await
+                    {
+                        Ok(s) => s,
+                        Err(e) => return Err(CustomError::new(e.to_string())),
+                    };
                 sequences.push(vector);
             }
             let size: usize = (range.to - range.from + 1) as usize;
@@ -88,7 +80,7 @@ pub async fn get_foreign_vector(
         }
         s if s == "Drop".to_string() => {
             return get_foreign_vector(
-                *(syn.sequences[0]).clone(),
+                &*(syn.sequences[0]),
                 &Range {
                     from: range.from + syn.parameters[0] as u64,
                     to: range.to + syn.parameters[0] as u64,
@@ -103,7 +95,7 @@ pub async fn get_foreign_vector(
             let owners = find_owners(&syn, users, all_sequences).await;
             let random_owners = shuffle(randomness_simulator(&mock_env()), owners);
             for owner in random_owners.into_iter() {
-                let possible_vector = request_vector(range, syn.clone(), owner).await;
+                let possible_vector = request_vector(range, syn.clone(), &owner).await;
                 match possible_vector {
                     Ok(s) => return Ok(s),
                     Err(_) => continue,
