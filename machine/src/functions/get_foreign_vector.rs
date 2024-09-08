@@ -100,7 +100,7 @@ pub async fn get_foreign_vector(
             .await
         }
         _ => {
-            let owners = find_owners(syn.clone(), users, all_sequences).await;
+            let owners = find_owners(&syn, users, all_sequences).await;
             let random_owners = shuffle(randomness_simulator(&mock_env()), owners);
             for owner in random_owners.into_iter() {
                 let possible_vector = request_vector(range, syn.clone(), owner).await;

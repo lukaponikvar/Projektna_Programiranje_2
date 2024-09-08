@@ -20,7 +20,7 @@ pub async fn log_in(register_ip: [u8; 4], port: u16) {
         }
     };
     let result = send_post(
-        format!(
+        &format!(
             "http://{}.{}.{}.{}:7878/generator",
             register_ip[0], register_ip[1], register_ip[2], register_ip[3]
         ),

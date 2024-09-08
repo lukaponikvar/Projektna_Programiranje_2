@@ -3,7 +3,7 @@ use crate::structs::project::Project;
 
 ///Funkcija vrne seznam uporabnikov na glavnem strežniku.
 pub async fn users(register_ip: [u8; 4]) -> Vec<Project> {
-    let response_as_result = send_get(format!(
+    let response_as_result = send_get(&format!(
         "http://{}.{}.{}.{}:7878/generator",
         register_ip[0], register_ip[1], register_ip[2], register_ip[3]
     ))

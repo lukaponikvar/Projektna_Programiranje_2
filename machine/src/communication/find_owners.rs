@@ -6,7 +6,7 @@ use crate::structs::{
 ///Funkcija vrne vse lastnike `Vec<Project>` iskanega zaporedja `sequence: SequenceSyntax`
 /// ob podanih uporabnikih `users` in njihovih zaporedjih `all_sequences`.
 pub async fn find_owners(
-    sequence: SequenceSyntax,
+    sequence: &SequenceSyntax,
     users: Vec<Project>,
     all_sequences: Vec<Vec<SequenceInfo>>,
 ) -> Vec<Project> {

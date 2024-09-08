@@ -23,7 +23,7 @@ pub async fn request_vector(
         Ok(b) => b,
         Err(e) => return Err(CustomError::new(e.to_string())),
     };
-    let reply = match send_post(url, body_as_string).await {
+    let reply = match send_post(&url, body_as_string).await {
         Ok(r) => r,
         Err(e) => return Err(CustomError::new(e.to_string())),
     };

@@ -54,7 +54,7 @@ pub fn create_404() -> Result<Response<BoxBody<Bytes, Error>>, Error> {
 ///
 /// The `400 (Bad Request)` status code indicates that the server cannot or will not process the request
 ///  due to something that is perceived to be a client error.
-pub fn create_400(str: String) -> Result<Response<BoxBody<Bytes, Error>>, Error> {
+pub fn create_400<T: Into<Bytes>>(str: T) -> Result<Response<BoxBody<Bytes, Error>>, Error> {
     let mut bad_request = Response::new(full(str));
     *bad_request.status_mut() = StatusCode::BAD_REQUEST;
     Ok(bad_request)
@@ -73,7 +73,7 @@ pub fn create_200<T: Into<Bytes>>(str: T) -> Result<Response<BoxBody<Bytes, Erro
 ///
 /// The `500 (Internal server error)` status code indicates that the server cannot or will not process the request
 ///  due to something that is perceived to be a client error.
-pub fn create_500(str: String) -> Result<Response<BoxBody<Bytes, Error>>, Error> {
+pub fn create_500<T: Into<Bytes>>(str: T) -> Result<Response<BoxBody<Bytes, Error>>, Error> {
     let mut server_error = Response::new(full(str));
     *server_error.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
     Ok(server_error)
