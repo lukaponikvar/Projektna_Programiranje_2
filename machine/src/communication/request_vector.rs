@@ -7,7 +7,7 @@ use crate::structs::sequences::{SequenceRequest, SequenceSyntax};
 ///Funkcija pridobi seznam členov zaporedja v odvisnosti od `range`.
 pub async fn request_vector(
     range: &Range,
-    sequence: SequenceSyntax,
+    sequence: &SequenceSyntax,
     owner: &Project,
 ) -> Result<Vec<f64>, CustomError> {
     let url = format!(
@@ -16,8 +16,8 @@ pub async fn request_vector(
     );
     let body = SequenceRequest {
         range: range.clone(),
-        parameters: sequence.parameters,
-        sequences: sequence.sequences,
+        parameters: sequence.parameters.clone(),
+        sequences: sequence.sequences.clone(),
     };
     let body_as_string = match serde_json::to_string(&body) {
         Ok(b) => b,

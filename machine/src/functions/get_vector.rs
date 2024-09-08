@@ -9,15 +9,15 @@ use async_recursion::async_recursion;
 
 #[async_recursion]
 pub async fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
-    let sequence: Vec<f64> = match (syn).name.clone() {
-        s if s == "Constant".to_string() => Constant::new(syn.parameters[0]).range(&range),
-        s if s == "Arithmetic".to_string() => {
+    let sequence: Vec<f64> = match &(syn).name {
+        s if s == &"Constant".to_string() => Constant::new(syn.parameters[0]).range(&range),
+        s if s == &"Arithmetic".to_string() => {
             Arithmetic::new(syn.parameters[0], syn.parameters[1]).range(&range)
         }
-        s if s == "Geometric".to_string() => {
+        s if s == &"Geometric".to_string() => {
             Geometric::new(syn.parameters[0], syn.parameters[1]).range(&range)
         }
-        s if s == "Sum".to_string() => {
+        s if s == &"Sum".to_string() => {
             let mut sequences = Vec::new();
             for seq in &syn.sequences {
                 let vector = match get_vector(&*seq, &range).await {
@@ -39,7 +39,7 @@ pub async fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>,
                 result
             }
         }
-        s if s == "Product".to_string() => {
+        s if s == &"Product".to_string() => {
             let mut sequences = Vec::new();
             for seq in &syn.sequences {
                 let vector = match get_vector(&*seq, &range).await {
@@ -61,7 +61,7 @@ pub async fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>,
                 result
             }
         }
-        s if s == "Drop".to_string() => {
+        s if s == &"Drop".to_string() => {
             return get_vector(
                 &*(syn.sequences[0]),
                 &Range {
