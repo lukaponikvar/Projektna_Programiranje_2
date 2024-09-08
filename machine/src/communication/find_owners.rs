@@ -7,8 +7,8 @@ use crate::structs::{
 /// ob podanih uporabnikih `users` in njihovih zaporedjih `all_sequences`.
 pub async fn find_owners(
     sequence: &SequenceSyntax,
-    users: Vec<Project>,
-    all_sequences: Vec<Vec<SequenceInfo>>,
+    users: &Vec<Project>,
+    all_sequences: &Vec<Vec<SequenceInfo>>,
 ) -> Vec<Project> {
     let indices: Vec<usize> = all_sequences
         .iter()

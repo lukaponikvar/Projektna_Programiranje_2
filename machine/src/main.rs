@@ -116,8 +116,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                                             &(get_foreign_vector(
                                                 &syn,
                                                 &request.range,
-                                                projects,
-                                                all_sequences,
+                                                &projects,
+                                                &all_sequences,
                                             )
                                             .await
                                             .expect("msg")),
