@@ -1,4 +1,5 @@
 use cosmwasm_std::testing::mock_env;
+use futures::future::join_all;
 use nois::{randomness_simulator, shuffle};
 
 use crate::communication::find_owners::find_owners;
@@ -29,9 +30,13 @@ pub async fn get_foreign_vector(
             Geometric::new(syn.parameters[0], syn.parameters[1]).range(&range)
         }
         s if s == &"Sum".to_string() => {
-            let mut sequences = Vec::new();
+            let mut sequences_as_futures = Vec::new();
             for seq in &syn.sequences {
-                let vector = match get_foreign_vector(&*seq, &range, users, all_sequences).await {
+                sequences_as_futures.push(get_foreign_vector(&*seq, &range, users, all_sequences));
+            }
+            let mut sequences = Vec::new();
+            for seq in join_all(sequences_as_futures).await {
+                let vector = match seq {
                     Ok(s) => s,
                     Err(e) => return Err(CustomError::new(e.to_string())),
                 };
@@ -51,9 +56,13 @@ pub async fn get_foreign_vector(
             }
         }
         s if s == &"Product".to_string() => {
-            let mut sequences = Vec::new();
+            let mut sequences_as_futures = Vec::new();
             for seq in &syn.sequences {
-                let vector = match get_foreign_vector(&*seq, range, users, all_sequences).await {
+                sequences_as_futures.push(get_foreign_vector(&*seq, &range, users, all_sequences));
+            }
+            let mut sequences = Vec::new();
+            for seq in join_all(sequences_as_futures).await {
+                let vector = match seq {
                     Ok(s) => s,
                     Err(e) => return Err(CustomError::new(e.to_string())),
                 };
@@ -87,7 +96,7 @@ pub async fn get_foreign_vector(
         }
         _ => {
             let owners = find_owners(syn, users, all_sequences).await;
-            let random_owners = shuffle(randomness_simulator(&mock_env()), owners);
+            let random_owners = shuffle(randomness_simulator(&mock_env()), owners); #TODO:
             for owner in random_owners.into_iter() {
                 let possible_vector = request_vector(&range, syn, &owner).await;
                 match possible_vector {
@@ -105,5 +114,3 @@ pub async fn get_foreign_vector(
     };
     Ok(sequence)
 }
-
-//TODO: Nehaj klonirat in začni uporabljati lifetime

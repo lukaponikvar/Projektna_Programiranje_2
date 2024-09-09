@@ -6,6 +6,7 @@ use crate::structs::custom_error::CustomError;
 use crate::structs::range::Range;
 use crate::structs::sequences::SequenceSyntax;
 use async_recursion::async_recursion;
+use futures::future::join_all;
 
 #[async_recursion]
 pub async fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
@@ -18,9 +19,13 @@ pub async fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>,
             Geometric::new(syn.parameters[0], syn.parameters[1]).range(&range)
         }
         s if s == &"Sum".to_string() => {
-            let mut sequences = Vec::new();
+            let mut sequences_as_futures = Vec::new();
             for seq in &syn.sequences {
-                let vector = match get_vector(&*seq, &range).await {
+                sequences_as_futures.push(get_vector(&*seq, &range));
+            }
+            let mut sequences = Vec::new();
+            for seq in join_all(sequences_as_futures).await {
+                let vector = match seq {
                     Ok(s) => s,
                     Err(e) => return Err(CustomError::new(e.to_string())),
                 };
@@ -40,9 +45,13 @@ pub async fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>,
             }
         }
         s if s == &"Product".to_string() => {
-            let mut sequences = Vec::new();
+            let mut sequences_as_futures = Vec::new();
             for seq in &syn.sequences {
-                let vector = match get_vector(&*seq, &range).await {
+                sequences_as_futures.push(get_vector(&*seq, &range));
+            }
+            let mut sequences = Vec::new();
+            for seq in join_all(sequences_as_futures).await {
+                let vector = match seq {
                     Ok(s) => s,
                     Err(e) => return Err(CustomError::new(e.to_string())),
                 };
