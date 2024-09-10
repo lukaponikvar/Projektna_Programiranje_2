@@ -169,3 +169,133 @@ body = {
 r = requests.post(url + "Drop", json=body)
 assert r.text == "[5.0,7.0,9.0,11.0]"
 # print(r.text)
+
+#######################################################################################################################
+# Average
+#######################################################################################################################
+
+body = {
+    "range": {
+        "from": 0,
+        "to": 7,
+        "step": 1,
+    },
+    "parameters": [],
+    "sequences": [
+        {
+            "name": "Arithmetic",
+                    "parameters": [1, 2],
+                    "sequences": [],
+        },
+        {
+            "name": "Constant",
+                    "parameters": [2],
+                    "sequences": [],
+        },
+    ],
+}
+r = requests.post(url + "Average", json=body)
+assert r.text == "[1.5,2.5,3.5,4.5,5.5,6.5,7.5]"
+# print(r.text)
+
+#######################################################################################################################
+# Fibonacci
+#######################################################################################################################
+
+body = {
+    "range": {
+        "from": 0,
+        "to": 10,
+        "step": 1,
+    },
+    "parameters": [0, 1],
+    "sequences": [],
+}
+r = requests.post(url + "Fibonacci", json=body)
+assert r.text == "[0.0,1.0,1.0,2.0,3.0,5.0,8.0,13.0,21.0,34.0]"
+# print(r.text)
+
+#######################################################################################################################
+# Linear Combination
+#######################################################################################################################
+
+body = {
+    "range": {
+        "from": 0,
+        "to": 7,
+        "step": 1,
+    },
+    "parameters": [2, 5],
+    "sequences": [
+        {
+            "name": "Arithmetic",
+                    "parameters": [1, 2],
+                    "sequences": [],
+        },
+        {
+            "name": "Constant",
+                    "parameters": [2],
+                    "sequences": [],
+        },
+    ],
+}
+r = requests.post(url + "LinearCombination", json=body)
+assert r.text == "[12.0,16.0,20.0,24.0,28.0,32.0,36.0]"
+# print(r.text)
+
+#######################################################################################################################
+# Min
+#######################################################################################################################
+
+
+body = {
+    "range": {
+        "from": 0,
+        "to": 8,
+        "step": 1,
+    },
+    "parameters": [],
+    "sequences": [
+        {
+            "name": "Arithmetic",
+                    "parameters": [1, 2],
+                    "sequences": [],
+        },
+        {
+            "name": "Constant",
+                    "parameters": [4],
+                    "sequences": [],
+        },
+    ],
+}
+r = requests.post(url + "Min", json=body)
+assert r.text == "[1.0,3.0,4.0,4.0,4.0,4.0,4.0,4.0]"
+# print(r.text)
+
+
+max
+
+
+body = {
+    "range": {
+        "from": 0,
+        "to": 5,
+        "step": 1,
+    },
+    "parameters": [],
+    "sequences": [
+        {
+            "name": "Arithmetic",
+                    "parameters": [1, 2],
+                    "sequences": [],
+        },
+        {
+            "name": "Constant",
+                    "parameters": [4],
+                    "sequences": [],
+        },
+    ],
+}
+r = requests.post(url + "Max", json=body)
+assert r.text == "[4.0,4.0,5.0,7.0,9.0]"
+# print(r.text)

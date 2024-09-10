@@ -13,12 +13,12 @@ pub fn sum(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError>
     }
     let size: usize = (range.to - range.from) as usize;
     if sequences.len() == 0 {
-        Ok(vec![1.0; size])
+        Ok(vec![0.0; size])
     } else {
-        let mut result = vec![1.0; size];
+        let mut result = vec![0.0; size];
         for vector in &sequences {
             for index in 0..size {
-                result[index] *= vector[index];
+                result[index] += vector[index];
             }
         }
         Ok(result)

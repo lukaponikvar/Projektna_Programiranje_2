@@ -42,5 +42,36 @@ pub fn our_sequences() -> Vec<SequenceInfo> {
         parameters: 0,
         sequences: 2,
     });
+    sequences.push(SequenceInfo {
+        name: "Average".to_string(),
+        description: "todo".to_string(),
+        parameters: 0,
+        sequences: 2,
+    });
+    sequences.push(SequenceInfo {
+        name: "Fibonacci".to_string(),
+        description: "todo".to_string(),
+        parameters: 2,
+        sequences: 0,
+    });
+    sequences.push(SequenceInfo {
+        name: "LinearCombination".to_string(),
+        description: "todo".to_string(),
+        parameters: 2,
+        sequences: 2,
+    });
+    sequences.push(SequenceInfo {
+        name: "Min".to_string(),
+        description: "todo".to_string(),
+        parameters: 0,
+        sequences: 2,
+    });
+    sequences.push(SequenceInfo {
+        name: "Max".to_string(),
+        description: "todo".to_string(),
+        parameters: 0,
+        sequences: 2,
+    });
+
     sequences
 }
