@@ -13,7 +13,8 @@ use communication::{
 };
 use functions::{
     check_sequences::check_sequences, get_foreign_vector::get_foreign_vector, get_ip::get_ip,
-    get_name::get_name, get_port::get_port, get_vector::get_vector, our_sequences::our_sequences,
+    get_name::get_name, get_port::get_port, get_register_port::get_register_port,
+    get_vector::get_vector, our_sequences::our_sequences,
 };
 use hyper::{server::conn::http1, service::service_fn, Method};
 use hyper_util::rt::TokioIo;
@@ -24,22 +25,32 @@ use tokio::net::TcpListener;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<String> = env::args().collect();
-    let (register_ip, generator_ip, port) = match args.len() {
-        1 => ([127, 0, 0, 1], [127, 0, 0, 1], 9000),
-        2 => (get_ip(&args[1]), [127, 0, 0, 1], 9000),
-        3 => (get_ip(&args[1]), get_ip(&args[2]), 9000),
-        4 => (get_ip(&args[1]), get_ip(&args[2]), get_port(&args[3])),
+    let (register_ip, register_port, generator_ip, port) = match args.len() {
+        1 => ([127, 0, 0, 1], 7878, [127, 0, 0, 1], 9000),
+        2 => (get_ip(&args[1]), 7878, [127, 0, 0, 1], 9000),
+        3 => (
+            get_ip(&args[1]),
+            get_register_port(&args[1]),
+            get_ip(&args[2]),
+            9000,
+        ),
+        4 => (
+            get_ip(&args[1]),
+            get_register_port(&args[1]),
+            get_ip(&args[2]),
+            get_port(&args[3]),
+        ),
         _ => panic!("Too many arguments."),
     };
 
     let generator_address: SocketAddr = (generator_ip, port).into();
 
-    let a = users(register_ip).await;
+    let a = users(register_ip, register_port).await;
     println!("{:#?}", a);
 
-    log_in(register_ip, port).await;
+    log_in(register_ip, register_port, port).await;
 
-    let b = user_sequences(register_ip).await;
+    let b = user_sequences(register_ip, register_port).await;
     println!("zaporedja: {:#?}", b);
 
     // let a = get_vector(
@@ -102,7 +113,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                                     )
                                 } else {
                                     let (projects, all_sequences) =
-                                        user_sequences(register_ip).await;
+                                        user_sequences(register_ip, register_port).await;
                                     create_200(
                                         serde_json::to_string(
                                             &(get_foreign_vector(

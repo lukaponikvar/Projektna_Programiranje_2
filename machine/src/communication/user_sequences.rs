@@ -16,8 +16,11 @@ async fn user_sequence(project: &Project) -> Result<Vec<SequenceInfo>, CustomErr
 }
 
 ///Funkcija od vseh uporabnikov pridobi vsa njihova zaporedja.
-pub async fn user_sequences(register_ip: [u8; 4]) -> (Vec<Project>, Vec<Vec<SequenceInfo>>) {
-    let users: Vec<Project> = match users(register_ip).await {
+pub async fn user_sequences(
+    register_ip: [u8; 4],
+    register_port: u16,
+) -> (Vec<Project>, Vec<Vec<SequenceInfo>>) {
+    let users: Vec<Project> = match users(register_ip, register_port).await {
         Ok(u) => u,
         Err(_) => Vec::new(),
     };
