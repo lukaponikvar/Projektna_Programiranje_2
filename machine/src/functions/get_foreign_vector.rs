@@ -27,9 +27,9 @@ pub async fn get_foreign_vector(
         s if s == &"Arithmetic".to_string() => {
             Arithmetic::new(syn.parameters[0], syn.parameters[1]).range(&range)
         }
-        s if s == &"Geometric".to_string() => {
-            Geometric::new(syn.parameters[0], syn.parameters[1]).range(&range)
-        }
+        // s if s == &"Geometric".to_string() => {
+        //     Geometric::new(syn.parameters[0], syn.parameters[1]).range(&range)
+        // }
         s if s == &"Sum".to_string() => {
             let mut sequences_as_futures = Vec::new();
             for seq in &syn.sequences {
