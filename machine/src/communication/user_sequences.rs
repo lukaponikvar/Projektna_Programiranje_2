@@ -1,3 +1,5 @@
+use futures::future::join_all;
+
 use crate::communication::get_and_post::send_get;
 use crate::communication::users::users;
 use crate::structs::custom_error::CustomError;
@@ -19,14 +21,22 @@ async fn user_sequence(project: &Project) -> Result<Vec<SequenceInfo>, CustomErr
 
 ///Funkcija od vseh uporabnikov pridobi vsa njihova zaporedja.
 pub async fn user_sequences(register_ip: [u8; 4]) -> (Vec<Project>, Vec<Vec<SequenceInfo>>) {
-    let users: Vec<Project> = users(register_ip).await;
+    let users: Vec<Project> = match users(register_ip).await {
+        Ok(u) => u,
+        Err(_) => Vec::new(),
+    };
     let mut projects = Vec::new();
     let mut all_sequences = Vec::new();
-    for user in users {
-        let sequences = user_sequence(&user).await;
+    let mut futures = Vec::new();
+    for user in &users {
+        futures.push(user_sequence(&user));
+    }
+    let sequences_vector = join_all(futures).await;
+    for index in 0..users.len() {
+        let sequences = sequences_vector[index].clone();
         match sequences {
             Ok(s) => {
-                projects.push(user);
+                projects.push(users[index].clone());
                 all_sequences.push(s)
             }
             Err(_) => continue,
