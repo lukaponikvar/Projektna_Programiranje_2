@@ -1,6 +1,11 @@
 use super::{
-    get_foreign_vector_support::{drop::drop, min::min, other::other, product::product, sum::sum},
-    get_vector_support::{arithmetic::arithmetic, constant::constant, geometric::geometric},
+    get_foreign_vector_support::{
+        average::average, drop::drop, linear_combination::linear_combination, max::max, min::min,
+        other::other, product::product, sum::sum,
+    },
+    get_vector_support::{
+        arithmetic::arithmetic, constant::constant, fibonacci::fibonacci, geometric::geometric,
+    },
 };
 use crate::{
     communication::expected::expected,
@@ -34,6 +39,12 @@ pub async fn get_foreign_vector(
         }
         s if s == &"Drop".to_string() && ours => drop(syn, range, users, all_sequences).await,
         s if s == &"Min".to_string() && ours => min(syn, range, users, all_sequences).await,
+        s if s == &"Max".to_string() => max(syn, range, users, all_sequences).await,
+        s if s == &"Fibonacci".to_string() => fibonacci(syn, range),
+        s if s == &"LinearCombination".to_string() => {
+            linear_combination(syn, range, users, all_sequences).await
+        }
+        s if s == &"Average".to_string() => average(syn, range, users, all_sequences).await,
         _ => other(syn, range, users, all_sequences).await,
     }
 }

@@ -1,17 +1,17 @@
 use super::models::Sequence;
 use crate::structs::range::Range;
 
-pub struct Sum {
+pub struct Average {
     pub sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>,
 }
 
-impl Sum {
-    pub fn new(sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>) -> Box<Sum> {
-        Box::new(Sum { sequences })
+impl Average {
+    pub fn new(sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>) -> Box<Average> {
+        Box::new(Average { sequences })
     }
 }
 
-impl Sequence<f64, dyn Send> for Sum {
+impl Sequence<f64, dyn Send> for Average {
     fn range(&self, range: &Range) -> Vec<f64> {
         let size: usize = (range.to - range.from) as usize;
         let number = self.sequences.len();

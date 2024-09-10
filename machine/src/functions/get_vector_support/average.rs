@@ -3,7 +3,7 @@ use crate::{
     structs::{custom_error::CustomError, range::Range, sequences::SequenceSyntax},
 };
 
-pub fn min(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
+pub fn average(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
     let mut sequences = Vec::new();
     for seq in &syn.sequences {
         match get_vector(&*seq, &range) {
@@ -12,18 +12,19 @@ pub fn min(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError>
         }
     }
     let size: usize = (range.to - range.from) as usize;
-    if sequences.len() == 0 {
+    let number = sequences.len();
+    if number == 0 {
         Ok(vec![0.0; size])
     } else {
-        let mut result = sequences[0].clone();
+        let mut almost_result = vec![0.0; size];
         for vector in &sequences {
             for index in 0..size {
-                if result[index] > vector[index] {
-                    result[index] = vector[index]
-                } else {
-                    continue;
-                }
+                almost_result[index] += vector[index];
             }
+        }
+        let mut result = vec![];
+        for term in almost_result {
+            result.push(term / number as f64);
         }
         Ok(result)
     }
