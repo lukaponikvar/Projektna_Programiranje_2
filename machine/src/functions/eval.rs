@@ -30,7 +30,10 @@ pub async fn eval(
         Ok(b) => b,
         Err(e) => return create_400(e.message),
     };
-    let request: SequenceRequest = serde_json::from_str(&body).unwrap();
+    let request: SequenceRequest = match serde_json::from_str(&body) {
+        Ok(s) => s,
+        Err(e) => return create_400(e.to_string()),
+    };
     let syn = SequenceSyntax {
         name,
         parameters: request.parameters,
