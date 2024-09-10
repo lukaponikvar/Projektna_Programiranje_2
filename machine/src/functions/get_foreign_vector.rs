@@ -1,18 +1,19 @@
+use crate::{
+    communication::{find_owners::find_owners, request_vector::request_vector},
+    sequences::{
+        arithmetic::Arithmetic, constant::Constant, geometric::Geometric, models::Sequence,
+    },
+    structs::{
+        custom_error::CustomError,
+        project::Project,
+        range::Range,
+        sequences::{SequenceInfo, SequenceSyntax},
+    },
+};
+use async_recursion::async_recursion;
 use futures::future::join_all;
 use rand::seq::SliceRandom;
 use rand::thread_rng;
-
-use crate::communication::find_owners::find_owners;
-use crate::communication::request_vector::request_vector;
-use crate::sequences::arithmetic::Arithmetic;
-use crate::sequences::constant::Constant;
-use crate::sequences::geometric::Geometric;
-use crate::sequences::models::Sequence;
-use crate::structs::custom_error::CustomError;
-use crate::structs::project::Project;
-use crate::structs::range::Range;
-use crate::structs::sequences::{SequenceInfo, SequenceSyntax};
-use async_recursion::async_recursion;
 
 #[async_recursion]
 pub async fn get_foreign_vector(

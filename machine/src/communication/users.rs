@@ -1,6 +1,5 @@
-use crate::communication::get_and_post::send_get;
-use crate::structs::custom_error::CustomError;
-use crate::structs::project::Project;
+use super::get_and_post::send_get;
+use crate::structs::{custom_error::CustomError, project::Project};
 
 ///Funkcija vrne seznam uporabnikov na glavnem strežniku.
 pub async fn users(register_ip: [u8; 4]) -> Result<Vec<Project>, CustomError> {

@@ -1,10 +1,6 @@
+use super::{get_and_post::send_get, users::users};
+use crate::structs::{custom_error::CustomError, project::Project, sequences::SequenceInfo};
 use futures::future::join_all;
-
-use crate::communication::get_and_post::send_get;
-use crate::communication::users::users;
-use crate::structs::custom_error::CustomError;
-use crate::structs::project::Project;
-use crate::structs::sequences::SequenceInfo;
 
 ///Funkcija od želenega uporabnika pridobi vsa njegova zaporedja.
 async fn user_sequence(project: &Project) -> Result<Vec<SequenceInfo>, CustomError> {

@@ -1,11 +1,10 @@
+use crate::structs::custom_error::CustomError;
 use bytes::Bytes;
 use http_body_util::{combinators::BoxBody, BodyExt, Empty, Full};
 use hyper::{
     body::{Body, Incoming},
     Error, Request, Response, StatusCode,
 };
-
-use crate::structs::custom_error::CustomError;
 
 fn full<T: Into<Bytes>>(chunk: T) -> BoxBody<Bytes, hyper::Error> {
     Full::new(chunk.into())

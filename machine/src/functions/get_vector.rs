@@ -1,10 +1,9 @@
-use crate::sequences::arithmetic::Arithmetic;
-use crate::sequences::constant::Constant;
-use crate::sequences::geometric::Geometric;
-use crate::sequences::models::Sequence;
-use crate::structs::custom_error::CustomError;
-use crate::structs::range::Range;
-use crate::structs::sequences::SequenceSyntax;
+use crate::{
+    sequences::{
+        arithmetic::Arithmetic, constant::Constant, geometric::Geometric, models::Sequence,
+    },
+    structs::{custom_error::CustomError, range::Range, sequences::SequenceSyntax},
+};
 use async_recursion::async_recursion;
 use futures::future::join_all;
 

@@ -1,4 +1,4 @@
-use crate::communication::get_and_post::send_post;
+use super::get_and_post::send_post;
 use crate::structs::project::Project;
 
 ///Funkcija ustvari `Project` z najinimi podatki.

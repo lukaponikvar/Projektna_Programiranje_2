@@ -1,8 +1,10 @@
 use super::get_and_post::send_post;
-use crate::structs::custom_error::CustomError;
-use crate::structs::project::Project;
-use crate::structs::range::Range;
-use crate::structs::sequences::{SequenceRequest, SequenceSyntax};
+use crate::structs::{
+    custom_error::CustomError,
+    project::Project,
+    range::Range,
+    sequences::{SequenceRequest, SequenceSyntax},
+};
 
 ///Funkcija pridobi seznam členov zaporedja v odvisnosti od `range`.
 pub async fn request_vector(

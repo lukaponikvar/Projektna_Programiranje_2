@@ -1,5 +1,4 @@
 pub mod communication;
-pub mod expressions;
 pub mod functions;
 pub mod mathematical_functions;
 pub mod sequences;

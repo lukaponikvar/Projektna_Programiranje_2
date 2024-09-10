@@ -1,5 +1,6 @@
 use crate::{
-    functions::our_sequences::our_sequences, structs::custom_error::CustomError,
+    functions::our_sequences::our_sequences, 
+    structs::custom_error::CustomError,
     structs::sequences::SequenceSyntax,
 };
 

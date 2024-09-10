@@ -1,6 +1,5 @@
-use crate::structs::sequences::SequenceSyntax;
-
 use super::our_sequences::our_sequences;
+use crate::structs::sequences::SequenceSyntax;
 
 /// Funkcija preveri, ali najin strežnik poseduje iskano zaporedje.
 fn expected(syn: &SequenceSyntax) -> bool {

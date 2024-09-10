@@ -1,6 +1,5 @@
-use regex::Regex;
-
 use crate::structs::custom_error::CustomError;
+use regex::Regex;
 
 ///Funkcija vzame niz oblike `"/sequence/{ime_zaporedja}"` in vrne `ime_zaporedja`
 pub fn get_name(string: &String) -> Result<String, CustomError> {
