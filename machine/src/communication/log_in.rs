@@ -35,8 +35,9 @@ pub async fn log_in(register_ip: [u8; 4], port: u16) {
     }
 }
 
-//TODO: Javljanje napak naj bo koristno! (sledi navodilom na spletni strani)
-//TODO: Jezik komunikacije naj bo angleščina
-//TODO: Koda naj deluje z ali brez / na koncu url-ja
-//TODO: Preglej, katere funkcije ne potrebujejo zares lastništva in jim daj raje referenco
+//TODO: Jezik komunikacije naj bo angleščina !!!
+//TODO: Preglej, katere funkcije ne potrebujejo zares lastništva in jim daj raje referenco DONE
+
 //TODO: preveri ali so poslali pravi vektor
+//TODO: Javljanje napak naj bo koristno! (sledi navodilom na spletni strani)
+//TODO: Koda naj deluje z ali brez / na koncu url-ja

@@ -4,7 +4,6 @@ pub mod mathematical_functions;
 pub mod sequences;
 pub mod structs;
 
-// use communication::get_vector::get_vector;
 use communication::{
     expected::expected,
     http_handling::{collect_body, create_200, create_400, create_404},
@@ -16,16 +15,10 @@ use functions::{
     check_sequences::check_sequences, get_foreign_vector::get_foreign_vector, get_ip::get_ip,
     get_name::get_name, get_port::get_port, get_vector::get_vector, our_sequences::our_sequences,
 };
-// use structs::range::Range;
-use structs::sequences::{SequenceRequest, SequenceSyntax};
-
-use std::net::SocketAddr;
-
-use hyper::server::conn::http1;
-use hyper::service::service_fn;
-use hyper::Method;
+use hyper::{server::conn::http1, service::service_fn, Method};
 use hyper_util::rt::TokioIo;
-use std::env;
+use std::{env, net::SocketAddr};
+use structs::sequences::{SequenceRequest, SequenceSyntax};
 use tokio::net::TcpListener;
 
 #[tokio::main]
