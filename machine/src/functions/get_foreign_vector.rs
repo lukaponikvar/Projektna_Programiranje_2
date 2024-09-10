@@ -1,7 +1,10 @@
 use crate::{
     communication::{find_owners::find_owners, request_vector::request_vector},
     sequences::{
-        arithmetic::Arithmetic, constant::Constant, geometric::Geometric, models::Sequence,
+        arithmetic::Arithmetic,
+        constant::Constant,
+        // geometric::Geometric,
+        models::Sequence,
     },
     structs::{
         custom_error::CustomError,

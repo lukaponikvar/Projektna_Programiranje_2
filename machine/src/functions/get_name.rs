@@ -3,7 +3,7 @@ use regex::Regex;
 
 ///Funkcija vzame niz oblike `"/sequence/{ime_zaporedja}"` in vrne `ime_zaporedja`
 pub fn get_name(string: &String) -> Result<String, CustomError> {
-    let reg = match Regex::new(r"/sequence/(.+)$") {
+    let reg = match Regex::new(r"/sequence/(.+)") {
         Ok(r) => r,
         Err(e) => return Err(CustomError::new(e.to_string())),
     };

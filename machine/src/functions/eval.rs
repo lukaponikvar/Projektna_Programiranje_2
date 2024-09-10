@@ -1,40 +1,67 @@
-use crate::sequences::arithmetic::Arithmetic;
-use crate::sequences::constant::Constant;
-use crate::sequences::drop::Drop;
-use crate::sequences::geometric::Geometric;
-use crate::sequences::models::Sequence;
-use crate::sequences::product::Product;
-use crate::sequences::sum::Sum;
-use crate::structs::sequences::SequenceSyntax;
-use async_recursion::async_recursion;
+use bytes::Bytes;
+use http_body_util::combinators::BoxBody;
+use hyper::{body::Incoming, Error, Request, Response};
 
-#[async_recursion]
-pub async fn eval(syn: &SequenceSyntax) -> Box<dyn Sequence<f64, dyn Send> + Send> {
-    let sequence: Box<dyn Sequence<f64, dyn Send> + Send> = match &(syn).name {
-        s if s == &"Constant".to_string() => Constant::new(syn.parameters[0]),
-        s if s == &"Arithmetic".to_string() => {
-            Arithmetic::new(syn.parameters[0], syn.parameters[1])
-        }
-        s if s == &"Geometric".to_string() => Geometric::new(syn.parameters[0], syn.parameters[1]),
-        s if s == &"Sum".to_string() => {
-            let mut sequences = Vec::new();
-            for seq in &syn.sequences {
-                sequences.push(eval(&*seq).await);
-            }
-            Sum::new(sequences)
-        }
-        s if s == &"Product".to_string() => {
-            let mut sequences = Vec::new();
-            for seq in &syn.sequences {
-                sequences.push(eval(&*seq).await);
-            }
-            println!("{:#?}", sequences.len());
-            Product::new(sequences)
-        }
-        s if s == &"Drop".to_string() => {
-            Drop::new(syn.parameters[0] as u64, eval(&*(syn.sequences[0])).await)
-        }
-        _ => Arithmetic::new(1.0, 1.0),
+use crate::{
+    communication::{
+        expected::expected,
+        http_handling::{collect_body, create_200, create_400},
+        user_sequences::user_sequences,
+    },
+    functions::{
+        check_sequences::check_sequences, get_foreign_vector::get_foreign_vector,
+        get_vector::get_vector,
+    },
+    structs::sequences::{SequenceRequest, SequenceSyntax},
+};
+
+use super::get_name::get_name;
+
+pub async fn eval(
+    register_ip: [u8; 4],
+    register_port: u16,
+    request: Request<Incoming>,
+) -> Result<Response<BoxBody<Bytes, Error>>, Error> {
+    let name = match get_name(&request.uri().path().to_string()) {
+        Ok(n) => n,
+        Err(e) => return create_400(e.message),
     };
-    sequence
+    let body = match collect_body(request).await {
+        Ok(b) => b,
+        Err(e) => return create_400(e.message),
+    };
+    let request: SequenceRequest = serde_json::from_str(&body).unwrap();
+    let syn = SequenceSyntax {
+        name,
+        parameters: request.parameters,
+        sequences: request.sequences,
+    };
+    match expected(&syn) {
+        Ok(_) => {
+            println!("Je pričakovano");
+            if check_sequences(&syn) {
+                let vector = match get_vector(&syn, &request.range).await {
+                    Ok(v) => v,
+                    Err(e) => return create_400(e.message),
+                };
+                match serde_json::to_string(&vector) {
+                    Ok(s) => create_200(s),
+                    Err(e) => create_400(e.to_string()),
+                }
+            } else {
+                let (projects, all_sequences) = user_sequences(register_ip, register_port).await;
+                let vector =
+                    match get_foreign_vector(&syn, &request.range, &projects, &all_sequences).await
+                    {
+                        Ok(v) => v,
+                        Err(e) => return create_400(e.message),
+                    };
+                match serde_json::to_string(&vector) {
+                    Ok(s) => create_200(s),
+                    Err(e) => create_400(e.to_string()),
+                }
+            }
+        }
+        Err(e) => create_400(e.message),
+    }
 }
