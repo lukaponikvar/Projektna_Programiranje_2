@@ -1,86 +1,22 @@
-use crate::{
-    sequences::{
-        arithmetic::Arithmetic, constant::Constant, geometric::Geometric, models::Sequence,
-    },
-    structs::{custom_error::CustomError, range::Range, sequences::SequenceSyntax},
+use super::get_vector_support::{
+    arithmetic::arithmetic, constant::constant, drop::drop, geometric::geometric, max::max,
+    min::min, product::product, sum::sum,
 };
-use async_recursion::async_recursion;
-use futures::future::join_all;
+use crate::structs::{custom_error::CustomError, range::Range, sequences::SequenceSyntax};
 
-#[async_recursion]
-pub async fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
-    let sequence: Vec<f64> = match &(syn).name {
-        s if s == &"Constant".to_string() => Constant::new(syn.parameters[0]).range(&range),
-        s if s == &"Arithmetic".to_string() => {
-            Arithmetic::new(syn.parameters[0], syn.parameters[1]).range(&range)
-        }
-        s if s == &"Geometric".to_string() => {
-            Geometric::new(syn.parameters[0], syn.parameters[1]).range(&range)
-        }
-        s if s == &"Sum".to_string() => {
-            let mut sequences_as_futures = Vec::new();
-            for seq in &syn.sequences {
-                sequences_as_futures.push(get_vector(&*seq, &range));
-            }
-            let mut sequences = Vec::new();
-            for seq in join_all(sequences_as_futures).await {
-                let vector = match seq {
-                    Ok(s) => s,
-                    Err(e) => return Err(CustomError::new(e.to_string())),
-                };
-                sequences.push(vector);
-            }
-            let size: usize = (range.to - range.from) as usize;
-            if sequences.len() == 0 {
-                vec![0.0; size]
-            } else {
-                let mut result = vec![0.0; size];
-                for vector in &sequences {
-                    for index in 0..size {
-                        result[index] += vector[index];
-                    }
-                }
-                result
-            }
-        }
-        s if s == &"Product".to_string() => {
-            let mut sequences_as_futures = Vec::new();
-            for seq in &syn.sequences {
-                sequences_as_futures.push(get_vector(&*seq, &range));
-            }
-            let mut sequences = Vec::new();
-            for seq in join_all(sequences_as_futures).await {
-                let vector = match seq {
-                    Ok(s) => s,
-                    Err(e) => return Err(CustomError::new(e.to_string())),
-                };
-                sequences.push(vector);
-            }
-            let size: usize = (range.to - range.from) as usize;
-            if sequences.len() == 0 {
-                vec![1.0; size]
-            } else {
-                let mut result = vec![1.0; size];
-                for vector in &sequences {
-                    for index in 0..size {
-                        result[index] *= vector[index];
-                    }
-                }
-                result
-            }
-        }
-        s if s == &"Drop".to_string() => {
-            return get_vector(
-                &*(syn.sequences[0]),
-                &Range {
-                    from: range.from + syn.parameters[0] as u64,
-                    to: range.to + syn.parameters[0] as u64,
-                    step: range.step,
-                },
-            )
-            .await
-        }
-        _ => return Err(CustomError::new("500".to_string())),
-    };
-    Ok(sequence)
+pub fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
+    match &(syn).name {
+        s if s == &"Constant".to_string() => constant(syn, range),
+        s if s == &"Arithmetic".to_string() => arithmetic(syn, range),
+        s if s == &"Geometric".to_string() => geometric(syn, range),
+        s if s == &"Sum".to_string() => sum(syn, range),
+        s if s == &"Product".to_string() => product(syn, range),
+        s if s == &"Drop".to_string() => drop(syn, range),
+        s if s == &"Min".to_string() => min(syn, range),
+        s if s == &"Max".to_string() => max(syn, range),
+        // s if s == &"Drop".to_string() =>
+        // s if s == &"Drop".to_string() =>
+        // s if s == &"Drop".to_string() =>
+        _ => Err(CustomError::new("500".to_string())), //TODO: Popravi na smiselno sporočilo
+    }
 }

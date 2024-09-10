@@ -1,21 +1,18 @@
-use bytes::Bytes;
-use http_body_util::combinators::BoxBody;
-use hyper::{body::Incoming, Error, Request, Response};
-
+use super::{
+    check_sequences::check_sequences, get_foreign_vector::get_foreign_vector, get_name::get_name,
+    get_vector::get_vector,
+};
 use crate::{
     communication::{
         expected::expected,
         http_handling::{collect_body, create_200, create_400},
         user_sequences::user_sequences,
     },
-    functions::{
-        check_sequences::check_sequences, get_foreign_vector::get_foreign_vector,
-        get_vector::get_vector,
-    },
     structs::sequences::{SequenceRequest, SequenceSyntax},
 };
-
-use super::get_name::get_name;
+use bytes::Bytes;
+use http_body_util::combinators::BoxBody;
+use hyper::{body::Incoming, Error, Request, Response};
 
 pub async fn eval(
     register_ip: [u8; 4],
@@ -41,9 +38,8 @@ pub async fn eval(
     };
     match expected(&syn) {
         Ok(_) => {
-            println!("Je pričakovano");
             if check_sequences(&syn) {
-                let vector = match get_vector(&syn, &request.range).await {
+                let vector = match get_vector(&syn, &request.range) {
                     Ok(v) => v,
                     Err(e) => return create_400(e.message),
                 };
