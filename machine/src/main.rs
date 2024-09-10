@@ -12,9 +12,13 @@ use communication::{
     users::users,
 };
 use functions::{
-    check_sequences::check_sequences, get_foreign_vector::get_foreign_vector, get_ip::get_ip,
-    get_name::get_name, get_port::get_port, get_register_port::get_register_port,
-    get_vector::get_vector, our_sequences::our_sequences,
+    check_sequences::check_sequences,
+    get_foreign_vector::get_foreign_vector,
+    get_ip::get_ip,
+    get_name::get_name,
+    get_ports::{get_port, get_register_port},
+    get_vector::get_vector,
+    our_sequences::our_sequences,
 };
 use hyper::{server::conn::http1, service::service_fn, Method};
 use hyper_util::rt::TokioIo;
