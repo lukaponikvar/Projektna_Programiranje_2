@@ -1,6 +1,6 @@
-use cosmwasm_std::testing::mock_env;
 use futures::future::join_all;
-use nois::{randomness_simulator, shuffle};
+use rand::seq::SliceRandom;
+use rand::thread_rng;
 
 use crate::communication::find_owners::find_owners;
 use crate::communication::request_vector::request_vector;
@@ -95,9 +95,9 @@ pub async fn get_foreign_vector(
             .await
         }
         _ => {
-            let owners = find_owners(syn, users, all_sequences).await;
-            let random_owners = shuffle(randomness_simulator(&mock_env()), owners);
-            for owner in random_owners.into_iter() {
+            let mut owners = find_owners(syn, users, all_sequences).await;
+            owners.shuffle(&mut thread_rng());
+            for owner in owners.into_iter() {
                 let possible_vector = request_vector(&range, syn, &owner).await;
                 match possible_vector {
                     Ok(s) => return Ok(s),
