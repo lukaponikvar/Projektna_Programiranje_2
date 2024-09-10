@@ -30,7 +30,15 @@ pub async fn request_vector(
         Err(e) => return Err(CustomError::new(e.to_string())),
     };
     match serde_json::from_str(&reply) {
-        Ok(b) => Ok(b),
+        Ok(b) => check_vector(range, b),
         Err(e) => Err(CustomError::new(e.to_string())),
+    }
+}
+
+fn check_vector(range: &Range, vector: Vec<f64>) -> Result<Vec<f64>, CustomError> {
+    if (range.to - range.from) as usize != vector.len() {
+        return Err(CustomError::new(format!("Dolžina dobljenega vektorja se ne ujema z želeno dolžino.\nDobili vektor dolžine {}, zahtevali vektor dolžine {}.", vector.len(), range.to - range.from)));
+    } else {
+        return Ok(vector);
     }
 }
