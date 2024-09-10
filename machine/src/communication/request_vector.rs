@@ -34,5 +34,3 @@ pub async fn request_vector(
         Err(e) => Err(CustomError::new(e.to_string())),
     }
 }
-
-//TODO: Ne se sesut, če ne dobiš od nekoga odgovora
