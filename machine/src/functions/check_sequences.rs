@@ -1,7 +1,7 @@
 use super::our_sequences::our_sequences;
 use crate::structs::sequences::SequenceSyntax;
 
-/// Funkcija preveri, ali najin strežnik poseduje iskano zaporedje.
+/// Checks if the searched sequence `syn` is one of sequences that belong to our server or not.
 fn expected(syn: &SequenceSyntax) -> bool {
     let our_sequences = our_sequences();
     let index = our_sequences.iter().position(|seq| {
@@ -15,7 +15,8 @@ fn expected(syn: &SequenceSyntax) -> bool {
     }
 }
 
-///Funkcija preveri ali so vsa morebiti gnezdena zaporedja v najini lasti ali ne.
+/// Returns `true` if all sequences (even nested ones, given in the `syn.sequences`) belong to our server, 
+/// and `false` if there exists at least one sequence that does not belong to our server.
 pub fn check_sequences(syn: &SequenceSyntax) -> bool {
     let mut result = expected(&syn);
     for seq in &syn.sequences {

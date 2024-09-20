@@ -2,7 +2,10 @@ use super::{get_and_post::send_get, users::users};
 use crate::structs::{custom_error::CustomError, project::Project, sequences::SequenceInfo};
 use futures::future::join_all;
 
-///Funkcija od želenega uporabnika pridobi vsa njegova zaporedja.
+/// Returns vector of all sequences from the desired user.
+/// 
+/// ## Errors
+/// In case of errors, they are reported.
 async fn user_sequence(project: &Project) -> Result<Vec<SequenceInfo>, CustomError> {
     let url = format!("http://{}:{}/sequence", project.ip, project.port);
     let string = match send_get(&url).await {
@@ -15,7 +18,8 @@ async fn user_sequence(project: &Project) -> Result<Vec<SequenceInfo>, CustomErr
     }
 }
 
-///Funkcija od vseh uporabnikov pridobi vsa njihova zaporedja.
+/// Returns pair of vectors, one with all users and the other one with vectors of all user sequences.
+/// The user and its sequences match at the same position.
 pub async fn user_sequences(
     register_ip: [u8; 4],
     register_port: u16,
@@ -43,3 +47,5 @@ pub async fn user_sequences(
     }
     (projects, all_sequences)
 }
+
+//TODO: dogovoriva se, kera imena bova uporabljala: user, register, main server, our server ...?

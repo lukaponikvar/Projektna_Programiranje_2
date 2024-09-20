@@ -10,6 +10,11 @@ use crate::{
     },
 };
 
+/// Returns vector of `linear_combination` sequence terms in the given `range`.
+///
+/// ## Errors
+/// In case of an error is no sequence that matches the requested sequence, the "Invalid input format" error is reported
+/// with additional info about sequence that caused an error.
 pub async fn linear_combination(
     syn: &SequenceSyntax,
     range: &Range,

@@ -3,6 +3,7 @@ use crate::{
     structs::{custom_error::CustomError, range::Range, sequences::SequenceSyntax},
 };
 
+/// Returns vector of `linear_combination` sequence terms in the given `range`.
 pub fn linear_combination(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
     let first_vector = match get_vector(&syn.sequences[0], range) {
         Ok(v) => v,

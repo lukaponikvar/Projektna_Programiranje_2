@@ -3,6 +3,7 @@ use crate::{
     structs::{custom_error::CustomError, range::Range, sequences::SequenceSyntax},
 };
 
+/// Returns vector of `sum` sequence terms in the given `range`.
 pub fn sum(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
     let mut sequences = Vec::new();
     for seq in &syn.sequences {

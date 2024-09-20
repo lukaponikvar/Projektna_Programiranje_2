@@ -1,4 +1,4 @@
-///Funkcija vrne potenco dane baze na dani eksponent.
+/// Returns a `base` raised to a given `power`.
 pub fn power(base: f64, exponent: u64) -> f64 {
     if exponent == 0 {
         1.0

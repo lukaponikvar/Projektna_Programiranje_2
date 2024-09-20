@@ -18,6 +18,11 @@ use crate::{
 };
 use async_recursion::async_recursion;
 
+/// Returns vector of searched sequence terms from its owner (found among given `users`) in the given `range`.
+/// 
+/// ## Errors
+/// In case there is no sequence that matches the requested sequence `syn`, the "Invalid input format" error is reported
+/// with additional info about requested sequence.
 #[async_recursion]
 pub async fn get_foreign_vector(
     syn: &SequenceSyntax,

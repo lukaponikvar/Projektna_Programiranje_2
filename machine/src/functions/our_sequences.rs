@@ -1,26 +1,26 @@
 use crate::structs::sequences::SequenceInfo;
 
-///Funkcija vrne seznam najinih zaporedij.
+/// Returns a vector of sequences that our server can produce.
 pub fn our_sequences() -> Vec<SequenceInfo> {
     let mut sequences = Vec::new();
     sequences.push(SequenceInfo {
         name: "Arithmetic".to_string(),
-        description: "Arithmetic sequence which takes two parameters: start and step.".to_string(),
+        description: "Arithmetic sequence which takes two parameters: a start and a step.".to_string(),
         parameters: 2,
         sequences: 0,
     });
     sequences.push(SequenceInfo {
         name: "Constant".to_string(),
-        description: "Constant sequence with a single parameter: value.".to_string(),
+        description: "Constant sequence with a single parameter: a value.".to_string(),
         parameters: 1,
         sequences: 0,
     });
-    // sequences.push(SequenceInfo {
-    //     name: "Geometric".to_string(),
-    //     description: "Geometric sequence with two parameters: start and quotient.".to_string(),
-    //     parameters: 2,
-    //     sequences: 0,
-    // });
+    sequences.push(SequenceInfo {
+        name: "Geometric".to_string(),
+        description: "Geometric sequence with two parameters: a start and a quotient.".to_string(),
+        parameters: 2,
+        sequences: 0,
+    });
     sequences.push(SequenceInfo {
         name: "Drop".to_string(),
         description: "A sequence which takes a sequence and a shift parameter and is 
@@ -37,38 +37,37 @@ pub fn our_sequences() -> Vec<SequenceInfo> {
     });
     sequences.push(SequenceInfo {
         name: "Product".to_string(),
-        description: "A sequence that takes two sequences and multiplies them term by term."
-            .to_string(),
+        description: "A sequence that takes two sequences and multiplies them term by term.".to_string(),
         parameters: 0,
         sequences: 2,
     });
     sequences.push(SequenceInfo {
         name: "Average".to_string(),
-        description: "todo".to_string(),
+        description: "A sequence that takes two sequences and calculates their average term by term.".to_string(),
         parameters: 0,
         sequences: 2,
     });
     sequences.push(SequenceInfo {
         name: "Fibonacci".to_string(),
-        description: "todo".to_string(),
+        description: "Fibonacci sequence starting with given parameters `zeroth` and `first`.".to_string(),
         parameters: 2,
         sequences: 0,
     });
     sequences.push(SequenceInfo {
         name: "LinearCombination".to_string(),
-        description: "todo".to_string(),
+        description: "Linear combination of two sequences `a` and `b` as given by: `(x*a_i + y*b_i)_i` where `x` and `y` are two parameters.".to_string(),
         parameters: 2,
         sequences: 2,
     });
     sequences.push(SequenceInfo {
         name: "Min".to_string(),
-        description: "todo".to_string(),
+        description: "A sequence that takes two sequences and uses their minimum term by term.".to_string(),
         parameters: 0,
         sequences: 2,
     });
     sequences.push(SequenceInfo {
         name: "Max".to_string(),
-        description: "todo".to_string(),
+        description: "A sequence that takes two sequences and uses their maximum term by term.".to_string(),
         parameters: 0,
         sequences: 2,
     });

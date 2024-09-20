@@ -1,6 +1,5 @@
 use regex::Regex;
 
-///Funkcija vzame niz oblike `"XXXX"` in vrne `PORT`.
 fn get_port_with_pattern(string: &String, reg: Regex) -> u16 {
     let findings = match reg.captures(&string) {
         Some(f) => f,
@@ -17,6 +16,10 @@ fn get_port_with_pattern(string: &String, reg: Regex) -> u16 {
     port
 }
 
+/// Returns `PORT` from a string of the form `"XXXX"`, where `X` represents a digit.
+/// 
+/// ## Errors
+/// In case of any error the standard `9000` `PORT` address is used.
 pub fn get_port(string: &String) -> u16 {
     let reg = match Regex::new(r"^(\d+)$") {
         Ok(r) => r,
@@ -25,6 +28,10 @@ pub fn get_port(string: &String) -> u16 {
     get_port_with_pattern(string, reg)
 }
 
+/// Returns `PORT` from a string of the form `"XXXX"`, where `X` represents a digit.
+/// 
+/// ## Errors
+/// In case of any error the standard `9000` `PORT` address is used.
 pub fn get_register_port(string: &String) -> u16 {
     let reg = match Regex::new(r":(\d+)$") {
         Ok(r) => r,
@@ -32,3 +39,5 @@ pub fn get_register_port(string: &String) -> u16 {
     };
     get_port_with_pattern(string, reg)
 }
+
+//TODO: verjetno se morta get_port in get_register_port razlikovat?

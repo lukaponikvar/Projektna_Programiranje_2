@@ -3,6 +3,7 @@ use crate::{
     structs::{custom_error::CustomError, range::Range, sequences::SequenceSyntax},
 };
 
+/// Returns vector of `drop` sequence terms in the given `range`.
 pub fn drop(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
     return get_vector(
         &*(syn.sequences[0]),
