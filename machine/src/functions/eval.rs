@@ -17,7 +17,7 @@ use hyper::{body::Incoming, Error, Request, Response};
 /// Handles the `POST` request for a sequence.
 ///
 /// ## Errors
-/// In case of errors, they are reported.
+/// In case of errors, the `400 (Bad Request)` status code is reported with description of an error.
 pub async fn eval(
     register_ip: [u8; 4],
     register_port: u16,
