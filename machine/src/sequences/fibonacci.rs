@@ -19,7 +19,7 @@ impl Fibonacci {
     }
 }
 
-impl Sequence<f64, dyn Send> for Fibonacci {
+impl Sequence<f64> for Fibonacci {
     fn range(&self, range: &Range) -> Vec<f64> {
         let mut result = vec![];
         for index in range.from..range.to {

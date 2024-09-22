@@ -14,13 +14,13 @@ impl Geometric {
         Box::new(Geometric { start, quotient })
     }
 
-    /// Returns `k_th` element of a given `Fibonacci` sequence.
+    /// Returns `k_th` element of a given `geometric` sequence.
     pub fn k_th(&self, k: u64) -> f64 {
         self.start * power(self.quotient, k)
     }
 }
 
-impl Sequence<f64, dyn Send> for Geometric {
+impl Sequence<f64> for Geometric {
     fn range(&self, range: &Range) -> Vec<f64> {
         let mut result = Vec::new();
         let mut index = range.from;

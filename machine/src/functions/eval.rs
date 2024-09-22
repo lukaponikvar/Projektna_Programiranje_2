@@ -1,6 +1,6 @@
 use super::{
     check_sequences::check_sequences, get_foreign_vector::get_foreign_vector, get_name::get_name,
-    get_vector::get_vector,
+    get_sequence::get_sequence,
 };
 use crate::{
     communication::{
@@ -14,7 +14,10 @@ use bytes::Bytes;
 use http_body_util::combinators::BoxBody;
 use hyper::{body::Incoming, Error, Request, Response};
 
-///TODO:
+/// Handles the `POST` request for a sequence.
+///
+/// ## Errors
+/// In case of errors, they are reported.
 pub async fn eval(
     register_ip: [u8; 4],
     register_port: u16,
@@ -40,11 +43,7 @@ pub async fn eval(
     match expected(&syn) {
         Ok(_) => {
             if check_sequences(&syn) {
-                let vector = match get_vector(&syn, &request.range) {
-                    Ok(v) => v,
-                    Err(e) => return create_400(e.message),
-                };
-                match serde_json::to_string(&vector) {
+                match serde_json::to_string(&get_sequence(&syn).range(&request.range)) {
                     Ok(s) => create_200(s),
                     Err(e) => create_400(e.to_string()),
                 }

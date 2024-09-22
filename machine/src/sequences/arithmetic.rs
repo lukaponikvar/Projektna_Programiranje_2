@@ -8,7 +8,6 @@ pub struct Arithmetic {
 }
 
 impl Arithmetic {
-
     /// Creates a new `arithmetic` sequence.
     pub fn new(start: f64, step: f64) -> Box<Arithmetic> {
         Box::new(Arithmetic { start, step })
@@ -20,7 +19,7 @@ impl Arithmetic {
     }
 }
 
-impl Sequence<f64, dyn Send> for Arithmetic {
+impl Sequence<f64> for Arithmetic {
     fn range(&self, range: &Range) -> Vec<f64> {
         let mut result = Vec::new();
         let mut index = range.from;

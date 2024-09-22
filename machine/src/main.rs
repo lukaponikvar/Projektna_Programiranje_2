@@ -4,7 +4,7 @@ pub mod mathematical_functions;
 pub mod sequences;
 pub mod structs;
 
-use communication::{log_in::log_in, user_sequences::user_sequences, users::users};
+use communication::log_in::log_in;
 use functions::{
     get_ip::get_ip,
     get_ports::{get_port, get_register_port},
@@ -13,7 +13,6 @@ use functions::{
 use hyper::{server::conn::http1, service::service_fn};
 use hyper_util::rt::TokioIo;
 use std::{env, net::SocketAddr};
-
 use tokio::net::TcpListener;
 
 #[tokio::main]
@@ -40,11 +39,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let generator_address: SocketAddr = (generator_ip, port).into();
 
     log_in(register_ip, register_port, port).await;
-    let a = users(register_ip, register_port).await;
-    println!("{:#?}", a);
-    let b = user_sequences(register_ip, register_port).await;
-    println!("zaporedja: {:#?}", b);
-
     let listener = TcpListener::bind(generator_address).await?;
     println!("Listening on http://{}", generator_address);
 
@@ -63,5 +57,3 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         });
     }
 }
-
-//TODO: zrihtat main in v terminal ne oddajat brezveze printov

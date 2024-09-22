@@ -1,20 +1,19 @@
 use super::models::Sequence;
 use crate::structs::range::Range;
 
-/// A sequence that takes two sequences and calculates their average term by term.
+/// A sequence that takes two sequences and term by term calculates their average.
 pub struct Average {
-    pub sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>,
+    pub sequences: Vec<Box<dyn Sequence<f64>>>,
 }
 
 impl Average {
-
     /// Creates a new `average` sequence.
-    pub fn new(sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>) -> Box<Average> {
+    pub fn new(sequences: Vec<Box<dyn Sequence<f64>>>) -> Box<Average> {
         Box::new(Average { sequences })
     }
 }
 
-impl Sequence<f64, dyn Send> for Average {
+impl Sequence<f64> for Average {
     fn range(&self, range: &Range) -> Vec<f64> {
         let size: usize = (range.to - range.from) as usize;
         let number = self.sequences.len();

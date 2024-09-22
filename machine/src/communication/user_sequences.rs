@@ -3,7 +3,7 @@ use crate::structs::{custom_error::CustomError, project::Project, sequences::Seq
 use futures::future::join_all;
 
 /// Returns vector of all sequences from the desired user.
-/// 
+///
 /// ## Errors
 /// In case of errors, they are reported.
 async fn user_sequence(project: &Project) -> Result<Vec<SequenceInfo>, CustomError> {
@@ -47,5 +47,3 @@ pub async fn user_sequences(
     }
     (projects, all_sequences)
 }
-
-//TODO: dogovoriva se, kera imena bova uporabljala: user, register, main server, our server ...?

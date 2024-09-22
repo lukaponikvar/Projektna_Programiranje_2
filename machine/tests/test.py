@@ -15,7 +15,8 @@ body = {
     "parameters": [1.0],
     "sequences": []
 }
-r = requests.post(url + "Constant", json=body)
+r = requests.post(url + "Constant/", json=body)
+# print(r.text)
 assert r.text == "[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]"
 
 #######################################################################################################################
@@ -61,7 +62,7 @@ body = {
     },]
 }
 r = requests.post(url + "Arithmetic", json=body)
-assert r.text == "Requested an invalid sequence.\nSequence name: Arithmetic does match one of ours, nevertheless number of given sequences: 1 is not equal to the required number of sequences: 0.\n"
+assert r.text == "Invalid input format.\nSequence name: Arithmetic does match one of ours, nevertheless number of given sequences: 1 is not equal to the required number of sequences: 0.\n"
 
 body = {
     "range": {
@@ -89,7 +90,7 @@ body = {
     "sequences": []
 }
 r = requests.post(url + "Geometric", json=body)
-assert r.text == "Requested an invalid sequence.\nSequence name: Geometric does not match any of ours.\n"
+assert r.text == "[2.0,4.0,8.0,64.0]"
 
 #######################################################################################################################
 # Sum
@@ -220,7 +221,7 @@ body = {
         "to": 7,
         "step": 1,
     },
-    "parameters": [2, 5],
+    "parameters": [2, 5, 1],
     "sequences": [
         {
             "name": "Arithmetic",
@@ -235,7 +236,7 @@ body = {
     ],
 }
 r = requests.post(url + "LinearCombination", json=body)
-assert r.text == "[12.0,16.0,20.0,24.0,28.0,32.0,36.0]"
+assert r.text == "[13.0,17.0,21.0,25.0,29.0,33.0,37.0]"
 
 #######################################################################################################################
 # Min

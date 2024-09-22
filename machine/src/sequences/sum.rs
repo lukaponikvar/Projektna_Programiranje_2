@@ -3,17 +3,17 @@ use crate::structs::range::Range;
 
 /// A sequence that takes two sequences and adds them term by term.
 pub struct Sum {
-    pub sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>,
+    pub sequences: Vec<Box<dyn Sequence<f64>>>,
 }
 
 impl Sum {
     /// Creates a new `sum` sequence.
-    pub fn new(sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>) -> Box<Sum> {
+    pub fn new(sequences: Vec<Box<dyn Sequence<f64>>>) -> Box<Sum> {
         Box::new(Sum { sequences })
     }
 }
 
-impl Sequence<f64, dyn Send> for Sum {
+impl Sequence<f64> for Sum {
     fn range(&self, range: &Range) -> Vec<f64> {
         let size: usize = (range.to - range.from) as usize;
         if self.sequences.len() == 0 {

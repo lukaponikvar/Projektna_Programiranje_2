@@ -3,19 +3,18 @@ use crate::structs::range::Range;
 
 /// A sequence that takes two sequences and multiplies them term by term.
 pub struct Product {
-    pub sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>,
+    pub sequences: Vec<Box<dyn Sequence<f64>>>,
 }
 
 impl Product {
     /// Creates a new `product` sequence.
-    pub fn new(sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>) -> Box<Product> {
+    pub fn new(sequences: Vec<Box<dyn Sequence<f64>>>) -> Box<Product> {
         Box::new(Product { sequences })
     }
 }
 
-impl Sequence<f64, dyn Send> for Product {
+impl Sequence<f64> for Product {
     fn range(&self, range: &Range) -> Vec<f64> {
-        println!("prod{}", self.sequences.len());
         let size: usize = (range.to - range.from) as usize;
         if self.sequences.len() == 0 {
             vec![1.0; size]

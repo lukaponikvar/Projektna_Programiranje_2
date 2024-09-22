@@ -5,7 +5,6 @@ pub mod get_foreign_vector_support;
 pub mod get_ip;
 pub mod get_name;
 pub mod get_ports;
-pub mod get_vector;
-pub mod get_vector_support;
+pub mod get_sequence;
 pub mod handle;
 pub mod our_sequences;

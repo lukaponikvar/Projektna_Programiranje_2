@@ -9,8 +9,10 @@ use crate::communication::{
 
 use super::{eval::eval, our_sequences::our_sequences};
 
-
-///TODO
+/// Handles the request for a sequence.
+///
+/// ## Errors
+/// In case of errors, they are reported.
 pub async fn handle(
     register_ip: [u8; 4],
     register_port: u16,

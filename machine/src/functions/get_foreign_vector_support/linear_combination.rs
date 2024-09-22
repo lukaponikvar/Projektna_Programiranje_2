@@ -37,8 +37,9 @@ pub async fn linear_combination(
 
     let mut result = vec![0.0; first_vector.len()];
     for indeks in 0..first_vector.len() {
-        result[indeks] +=
-            syn.parameters[0] * first_vector[indeks] + syn.parameters[1] * second_vector[indeks]
+        result[indeks] += syn.parameters[0] * first_vector[indeks]
+            + syn.parameters[1] * second_vector[indeks]
+            + syn.parameters[2]
     }
     Ok(result)
 }

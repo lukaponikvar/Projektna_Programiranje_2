@@ -1,11 +1,7 @@
-use super::{
-    get_foreign_vector_support::{
-        average::average, drop::drop, linear_combination::linear_combination, max::max, min::min,
-        other::other, product::product, sum::sum,
-    },
-    get_vector_support::{
-        arithmetic::arithmetic, constant::constant, fibonacci::fibonacci, geometric::geometric,
-    },
+use super::get_foreign_vector_support::{
+    arithmetic::arithmetic, average::average, constant::constant, drop::drop, fibonacci::fibonacci,
+    geometric::geometric, linear_combination::linear_combination, max::max, min::min, other::other,
+    product::product, sum::sum,
 };
 use crate::{
     communication::expected::expected,
@@ -19,7 +15,7 @@ use crate::{
 use async_recursion::async_recursion;
 
 /// Returns vector of searched sequence terms from its owner (found among given `users`) in the given `range`.
-/// 
+///
 /// ## Errors
 /// In case there is no sequence that matches the requested sequence `syn`, the "Invalid input format" error is reported
 /// with additional info about requested sequence.
