@@ -1,11 +1,13 @@
 use super::models::Sequence;
 use crate::structs::range::Range;
 
+/// A sequence that takes two sequences and multiplies them term by term.
 pub struct Product {
     pub sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>,
 }
 
 impl Product {
+    /// Creates a new `product` sequence.
     pub fn new(sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>) -> Box<Product> {
         Box::new(Product { sequences })
     }

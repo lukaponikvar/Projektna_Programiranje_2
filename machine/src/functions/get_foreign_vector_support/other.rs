@@ -9,6 +9,12 @@ use crate::{
 };
 use rand::{seq::SliceRandom, thread_rng};
 
+
+/// Returns vector of searched sequence terms from its random owner (in case there is more of them) in the given `range`.
+/// 
+/// ## Errors
+/// In case there is no sequence that matches the requested sequence `syn`, the "Invalid input format" error is reported
+/// with additional info about requested sequence.
 pub async fn other(
     syn: &SequenceSyntax,
     range: &Range,
@@ -25,7 +31,7 @@ pub async fn other(
         }
     }
     return Err(CustomError::new(format!(
-        "Sequence: {}, with {} parameters and {} sequences not found.",
+        "Invalid input format\n Sequence: {}, with {} parameters and {} sequences not found.",
         syn.name,
         syn.parameters.len(),
         syn.sequences.len()

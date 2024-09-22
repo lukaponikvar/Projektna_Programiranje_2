@@ -1,16 +1,19 @@
 use super::models::Sequence;
 use crate::structs::range::Range;
 
+/// Fibonacci sequence starting with given parameters `zeroth` and `first`.
 pub struct Fibonacci {
     pub zeroth: f64,
     pub first: f64,
 }
 
 impl Fibonacci {
+    /// Creates a new `Fibonacci` sequence.
     pub fn new(zeroth: f64, first: f64) -> Box<Fibonacci> {
         Box::new(Fibonacci { zeroth, first })
     }
 
+    /// Returns `k_th` element of a given `Fibonacci` sequence.
     fn k_th(&self, k: u64) -> f64 {
         k_th(self.zeroth, self.first, k)
     }

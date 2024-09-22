@@ -3,8 +3,8 @@ use crate::structs::{
     sequences::{SequenceInfo, SequenceSyntax},
 };
 
-///Funkcija vrne vse lastnike `Vec<Project>` iskanega zaporedja `sequence: SequenceSyntax`
-/// ob podanih uporabnikih `users` in njihovih zaporedjih `all_sequences`.
+/// Returns vector of all possible owners `Vec<Project>` of the searched sequence `sequence` 
+/// with the given users `users` and their sequences `all_sequences`.
 pub async fn find_owners(
     sequence: &SequenceSyntax,
     users: &Vec<Project>,

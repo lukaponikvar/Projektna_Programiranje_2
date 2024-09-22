@@ -1,11 +1,13 @@
 use super::models::Sequence;
 use crate::structs::range::Range;
 
+/// A sequence that takes two sequences and uses their maximum term by term.
 pub struct Max {
     pub sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>,
 }
 
 impl Max {
+    /// Creates a new `max` sequence.
     pub fn new(sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>) -> Box<Max> {
         Box::new(Max { sequences })
     }

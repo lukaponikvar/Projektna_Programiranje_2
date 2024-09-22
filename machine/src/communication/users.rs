@@ -1,7 +1,10 @@
 use super::get_and_post::send_get;
 use crate::structs::{custom_error::CustomError, project::Project};
 
-///Funkcija vrne seznam uporabnikov na glavnem strežniku.
+///Returns a vector of all users logged in the main server.
+/// 
+/// ## Errors
+/// In case of errors, they are reported.
 pub async fn users(register_ip: [u8; 4], register_port: u16) -> Result<Vec<Project>, CustomError> {
     let response_as_result = send_get(&format!(
         "http://{}.{}.{}.{}:{}/generator",

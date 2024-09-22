@@ -5,6 +5,11 @@ use super::get_vector_support::{
 };
 use crate::structs::{custom_error::CustomError, range::Range, sequences::SequenceSyntax};
 
+/// Returns vector of searched sequence terms from our server in the given `range`.
+/// 
+/// ## Errors
+/// In case there is no sequence that matches the requested sequence `syn`, the "Invalid input format" error is reported
+/// with additional info about requested sequence.
 pub fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, CustomError> {
     match &(syn).name {
         s if s == &"Constant".to_string() => constant(syn, range),
@@ -18,6 +23,11 @@ pub fn get_vector(syn: &SequenceSyntax, range: &Range) -> Result<Vec<f64>, Custo
         s if s == &"Fibonacci".to_string() => fibonacci(syn, range),
         s if s == &"LinearCombination".to_string() => linear_combination(syn, range),
         s if s == &"Average".to_string() => average(syn, range),
-        _ => Err(CustomError::new("500".to_string())), //TODO: Popravi na smiselno sporočilo
+        _ => Err(CustomError::new(format!(
+            "Invalid input format\n Sequence: {}, with {} parameters and {} sequences not found.",
+            syn.name,
+            syn.parameters.len(),
+            syn.sequences.len()
+        ))), //TODO: Popravi na smiselno sporočilo
     }
 }

@@ -1,11 +1,13 @@
 use super::models::Sequence;
 use crate::structs::range::Range;
 
+/// A sequence that takes two sequences and adds them term by term.
 pub struct Sum {
     pub sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>,
 }
 
 impl Sum {
+    /// Creates a new `sum` sequence.
     pub fn new(sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>) -> Box<Sum> {
         Box::new(Sum { sequences })
     }

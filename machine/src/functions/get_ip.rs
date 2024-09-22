@@ -1,6 +1,9 @@
 use regex::Regex;
 
-///Funkcija vzame niz oblike `"X.X.X.X"` in vrne `ip` naslov.
+/// Makes `ip` address from a string of the form `"X.X.X.X"`, where `X` represents a digit.
+/// 
+/// ## Errors
+/// In case of any error the standard `127.0.0.1` `ip` address is used.
 pub fn get_ip(string: &String) -> [u8; 4] {
     let reg = match Regex::new(r"^(\d*)\.(\d*)\.(\d*)\.(\d*)$") {
         Ok(r) => r,

@@ -1,11 +1,16 @@
 use super::models::Sequence;
 use crate::structs::range::Range;
 
+// a ne bi tole rabil še 2 parametrov?
+// na spletki majo 3 parametre...
+
+/// Linear combination of two sequences `a` and `b` as given by: `(x*a_i + y*b_i)_i` where `x` and `y` are two parameters.
 pub struct LinearCombination {
     pub sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>,
 }
 
 impl LinearCombination {
+    /// Creates a new `linear_combination` sequence.
     pub fn new(sequences: Vec<Box<dyn Sequence<f64, dyn Send> + Send>>) -> Box<LinearCombination> {
         Box::new(LinearCombination { sequences })
     }

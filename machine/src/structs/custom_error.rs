@@ -1,5 +1,6 @@
 use std::{error::Error, fmt};
 
+/// An error which allows us to communicate with a client through displayed `message`.
 #[derive(Debug, Clone)]
 pub struct CustomError {
     pub message: String,
@@ -14,6 +15,7 @@ impl fmt::Display for CustomError {
 }
 
 impl CustomError {
+    /// Creates a new `CustomError`.
     pub fn new(message: String) -> CustomError {
         return CustomError { message };
     }

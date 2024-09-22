@@ -63,3 +63,5 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         });
     }
 }
+
+//TODO: zrihtat main in v terminal ne oddajat brezveze printov
