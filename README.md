@@ -134,7 +134,7 @@ by term.
 >  2
 
 > [!NOTE]
-> All sequences that could logically take an arbitrary amount of sequences are implemented in such a way, however the project restrictions make it unfeasable.
+> All sequences that could logically take an arbitrary amount of sequences are implemented in such a way, however the project restrictions make it unfeasible.
 
 ### Authors:
 - Anara Nemanič
