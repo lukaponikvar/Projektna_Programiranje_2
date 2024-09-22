@@ -22,9 +22,9 @@ Starting the server requires use of the following command in the
  `cargo run -- register_address generator_ip generator_port`,
  where the defaults are `127.0.0.1:7878`, `127.0.0.1` and `9000` respectively.
 
->__Attention:__ Make sure that the main server is up and running
+> <span style="color: #ffae24">__Attention:__ Make sure that the main server is up and running
  before starting, so as to make sure, that this server logs in to the
- main server.
+ main server.</span>
 
 In the `machine\tests` folder there is an existing `test.py` 
 file with pre-written tests for each available sequence, that
