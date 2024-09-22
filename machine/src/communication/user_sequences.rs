@@ -2,10 +2,6 @@ use super::{get_and_post::send_get, users::users};
 use crate::structs::{custom_error::CustomError, project::Project, sequences::SequenceInfo};
 use futures::future::join_all;
 
-/// Returns vector of all sequences from the desired user.
-///
-/// ## Errors
-/// In case of errors, they are reported.
 async fn user_sequence(project: &Project) -> Result<Vec<SequenceInfo>, CustomError> {
     let url = format!("http://{}:{}/sequence", project.ip, project.port);
     let string = match send_get(&url).await {

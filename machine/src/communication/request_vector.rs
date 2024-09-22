@@ -7,9 +7,6 @@ use crate::structs::{
 };
 
 /// Returns vector of searched sequence terms of the selected `owner` in the given `range`.
-/// 
-/// ## Errors
-/// In case of errors, they are reported.
 pub async fn request_vector(
     range: &Range,
     sequence: &SequenceSyntax,
@@ -39,17 +36,17 @@ pub async fn request_vector(
 }
 
 /// Checks if length of the given `vector` matches length of the requested `range`.
-/// 
+///
 /// ## Errors
-/// If the returned `vector` is not suitable for the requested `range`, 
+/// If the returned `vector` is not suitable for the requested `range`,
 /// the error is reported with additional information about lengths of vectors.
 fn check_vector(range: &Range, vector: Vec<f64>) -> Result<Vec<f64>, CustomError> {
     if (range.to - range.from) as usize != vector.len() {
-        return Err(CustomError::new(
-            format!("Invalid return.\nVector length: {}, range length: {}.", 
-            vector.len(), 
-            range.to - range.from)
-        ));
+        return Err(CustomError::new(format!(
+            "Invalid return.\nVector length: {}, range length: {}.",
+            vector.len(),
+            range.to - range.from
+        )));
     } else {
         return Ok(vector);
     }

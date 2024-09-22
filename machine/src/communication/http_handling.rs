@@ -16,8 +16,6 @@ fn full<T: Into<Bytes>>(chunk: T) -> BoxBody<Bytes, hyper::Error> {
 ///
 /// ## Errors
 /// If the body is more than `1024 * 64` characters long, the `"Body too big"` error is reported.
-/// 
-/// In case of other errors, they are reported as well.
 pub async fn collect_body(req: Request<Incoming>) -> Result<String, CustomError> {
     let max = req.body().size_hint().upper().unwrap_or(u64::MAX);
     if max > 1024 * 64 {
@@ -69,7 +67,7 @@ pub fn create_200<T: Into<Bytes>>(str: T) -> Result<Response<BoxBody<Bytes, Erro
 
 /// Signals the client that an unexpected error had been detected on internal server.
 ///
-/// The `500 (Internal Server Error)` status code indicates that the server encountered an 
+/// The `500 (Internal Server Error)` status code indicates that the server encountered an
 /// unexpected condition that prevented it from fulfilling the request.
 pub fn create_500<T: Into<Bytes>>(str: T) -> Result<Response<BoxBody<Bytes, Error>>, Error> {
     let mut server_error = Response::new(full(str));

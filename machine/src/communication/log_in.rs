@@ -11,9 +11,6 @@ pub fn make_project(port: u16) -> Project {
 }
 
 /// Logs the register into the main server.
-///
-/// ## Errors
-/// In case of errors, they are reported.
 pub async fn log_in(register_ip: [u8; 4], register_port: u16, port: u16) {
     let body = match serde_json::to_string(&make_project(port)) {
         Ok(b) => b,
