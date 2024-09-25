@@ -306,7 +306,7 @@ body = {
     "sequences": [],
 }
 r = requests.post(url + "Random", json=body)
-# print(r.text)
+print(r.text)
 
 #######################################################################################################################
 # Floor
@@ -337,4 +337,38 @@ body = {
     }],
 }
 r = requests.post(url + "Floor", json=body)
+assert r.text == "[1.0,2.0,3.0,4.0,5.0,6.0,7.0]"
+
+#######################################################################################################################
+# Floor
+#######################################################################################################################
+
+body = {
+    "range": {
+        "from": 0,
+        "to": 7,
+        "step": 1,
+    },
+    "parameters": [0],
+    "sequences": [{
+        "name": "Floor",
+        "parameters": [],
+        "sequences": [{
+            "name": "Average",
+            "parameters": [],
+            "sequences": [
+                {
+                    "name": "Arithmetic",
+                    "parameters": [1.0, 2.3],
+                    "sequences": [],
+                },
+                {
+                    "name": "Constant",
+                    "parameters": [2],
+                    "sequences": [],
+                },
+            ],
+        }],
+    }]}
+r = requests.post(url + "Drop", json=body)
 assert r.text == "[1.0,2.0,3.0,4.0,5.0,6.0,7.0]"
