@@ -359,7 +359,7 @@ body = {
             "sequences": [
                 {
                     "name": "Arithmetic",
-                    "parameters": [1.0, 2.3],
+                    "parameters": [1.0, 42],
                     "sequences": [],
                 },
                 {
@@ -372,3 +372,38 @@ body = {
     }]}
 r = requests.post(url + "Drop", json=body)
 assert r.text == "[1.0,2.0,3.0,4.0,5.0,6.0,7.0]"
+
+
+#######################################################################################################################
+# Binary
+#######################################################################################################################
+
+body = {
+    "range": {
+        "from": 0,
+        "to": 7,
+        "step": 1,
+    },
+    "parameters": [],
+    "sequences": [{
+        "name": "Floor",
+        "parameters": [],
+        "sequences": [{
+            "name": "Average",
+            "parameters": [],
+            "sequences": [
+                {
+                    "name": "Arithmetic",
+                    "parameters": [1.0, 42],
+                    "sequences": [],
+                },
+                {
+                    "name": "Constant",
+                    "parameters": [2],
+                    "sequences": [],
+                },
+            ],
+        }],
+    }]}
+r = requests.post(url + "Binary", json=body)
+assert r.text == "[1.0,10110.0,101011.0,1000000.0,1010101.0,1101010.0,1111111.0]"

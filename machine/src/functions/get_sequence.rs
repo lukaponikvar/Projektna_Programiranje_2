@@ -1,6 +1,6 @@
 use crate::{
     sequences::{
-        arithmetic::Arithmetic, average::Average, constant::Constant, drop::Drop,
+        arithmetic::Arithmetic, average::Average, binary::Binary, constant::Constant, drop::Drop,
         fibonacci::Fibonacci, floor::Floor, geometric::Geometric,
         linear_combination::LinearCombination, max::Max, min::Min, models::Sequence,
         product::Product, random::Random, sum::Sum,
@@ -24,6 +24,7 @@ pub fn get_sequence(syn: &SequenceSyntax) -> Box<dyn Sequence<f64>> {
             }
             Average::new(sequences)
         }
+        s if s == &"Binary".to_string() => Binary::new(get_sequence(&*syn.sequences[0])),
         s if s == &"Constant".to_string() => Constant::new(syn.parameters[0]),
         s if s == &"Drop".to_string() => {
             Drop::new(syn.parameters[0] as u64, get_sequence(&*syn.sequences[0]))

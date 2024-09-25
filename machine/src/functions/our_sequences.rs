@@ -19,6 +19,14 @@ pub fn our_sequences() -> Vec<SequenceInfo> {
         sequences: 2,
     });
     sequences.push(SequenceInfo {
+        name: "Binary".to_string(),
+        description:
+            "A sequence that takes a sequences and calculates terms by taking terms, rounding them and converting the integers to binary."
+                .to_string(),
+        parameters: 0,
+        sequences: 1,
+    });
+    sequences.push(SequenceInfo {
         name: "Constant".to_string(),
         description: "Constant sequence with a single parameter: a value.".to_string(),
         parameters: 1,
