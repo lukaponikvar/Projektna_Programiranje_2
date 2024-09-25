@@ -3,6 +3,7 @@ pub mod average;
 pub mod constant;
 pub mod drop;
 pub mod fibonacci;
+pub mod floor;
 pub mod geometric;
 pub mod linear_combination;
 pub mod max;

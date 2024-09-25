@@ -12,7 +12,4 @@ Cargo.lock
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
-machine1
-machine2
-machine3
-machine4
+machine copy

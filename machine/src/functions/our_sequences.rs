@@ -40,6 +40,14 @@ pub fn our_sequences() -> Vec<SequenceInfo> {
         sequences: 0,
     });
     sequences.push(SequenceInfo {
+        name: "Floor".to_string(),
+        description:
+            "A sequence that takes one sequences and applies the floor function term by term."
+                .to_string(),
+        parameters: 0,
+        sequences: 1,
+    });
+    sequences.push(SequenceInfo {
         name: "Geometric".to_string(),
         description: "Geometric sequence with two parameters: a start and a quotient.".to_string(),
         parameters: 2,

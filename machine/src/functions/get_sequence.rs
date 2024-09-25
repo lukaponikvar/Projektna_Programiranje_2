@@ -1,8 +1,9 @@
 use crate::{
     sequences::{
         arithmetic::Arithmetic, average::Average, constant::Constant, drop::Drop,
-        fibonacci::Fibonacci, geometric::Geometric, linear_combination::LinearCombination,
-        max::Max, min::Min, models::Sequence, product::Product, random::Random, sum::Sum,
+        fibonacci::Fibonacci, floor::Floor, geometric::Geometric,
+        linear_combination::LinearCombination, max::Max, min::Min, models::Sequence,
+        product::Product, random::Random, sum::Sum,
     },
     structs::sequences::SequenceSyntax,
 };
@@ -28,6 +29,7 @@ pub fn get_sequence(syn: &SequenceSyntax) -> Box<dyn Sequence<f64>> {
             Drop::new(syn.parameters[0] as u64, get_sequence(&*syn.sequences[0]))
         }
         s if s == &"Fibonacci".to_string() => Fibonacci::new(syn.parameters[0], syn.parameters[1]),
+        s if s == &"Floor".to_string() => Floor::new(get_sequence(&syn.sequences[0])),
         s if s == &"Geometric".to_string() => Geometric::new(syn.parameters[0], syn.parameters[1]),
         s if s == &"LinearCombination".to_string() => {
             let mut sequences = vec![];
