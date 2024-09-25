@@ -73,6 +73,13 @@ pub fn our_sequences() -> Vec<SequenceInfo> {
         sequences: 2,
     });
     sequences.push(SequenceInfo {
+        name: "Random".to_string(),
+        description: "A sequence that takes two arguments: a and b, and generates random values in a specified range [min(a, b), max(a,b)). If the range is empty it returns all a's."
+            .to_string(),
+        parameters: 2,
+        sequences: 0,
+    });
+    sequences.push(SequenceInfo {
         name: "Sum".to_string(),
         description: "A sequence that takes two sequences and adds them term by term.".to_string(),
         parameters: 0,

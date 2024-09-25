@@ -9,4 +9,5 @@ pub mod max;
 pub mod min;
 pub mod models;
 pub mod product;
+pub mod random;
 pub mod sum;
