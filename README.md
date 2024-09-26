@@ -52,6 +52,15 @@ average term by term.
 > _Sequences:_ 
 >  2
 
+> __Binary sequence__  
+> _Description:_ 
+> A sequence that takes a sequences and calculates terms by taking terms, 
+rounding them and converting the integers to binary.   
+> _Parameters:_ 
+>  0  
+> _Sequences:_ 
+>  1
+
 > __Constant sequence__  
 > _Description:_ 
 > Constant sequence with a single parameter: a value.  
@@ -78,6 +87,15 @@ average term by term.
 >  2  
 > _Sequences:_ 
 >  0
+
+> __Floor sequence__  
+> _Description:_ 
+> A sequence that takes one sequences and applies the floor function 
+term by term.  
+> _Parameters:_ 
+>  0  
+> _Sequences:_ 
+>  1
 
 > __Geometric sequence__  
 > _Description:_ 
@@ -124,6 +142,16 @@ by term.
 >  0  
 > _Sequences:_ 
 >  2
+
+> __Random sequence__  
+> _Description:_ 
+>A sequence that takes two arguments: a and b, and generates random values
+ in a specified range [min(a, b), max(a,b)). If the range is empty it 
+ returns all a's.  
+> _Parameters:_ 
+>  2  
+> _Sequences:_ 
+>  0
 
 > __Sum sequence__  
 > _Description:_ 
