@@ -15,7 +15,7 @@ and the following `POST` request:
 - `/sequence`: returns a vector of floating point numbers, 
 according to the specified sequence and range.
 
-## Running the Servers
+## Running the Server
 
 Starting the server requires use of the following command in the
  terminal: 
