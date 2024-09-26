@@ -1,5 +1,6 @@
 use crate::{
     functions::get_foreign_vector::get_foreign_vector,
+    sequences::binary::convert,
     structs::{
         custom_error::CustomError,
         project::Project,
@@ -20,14 +21,7 @@ pub async fn binary(
     all_sequences: &Vec<Vec<SequenceInfo>>,
 ) -> Result<Vec<f64>, CustomError> {
     match get_foreign_vector(&*(syn.sequences[0]), range, users, all_sequences).await {
-        Ok(v) => Ok(v
-            .iter()
-            .map(|x| {
-                format!("{:b}", *x as i64)
-                    .parse()
-                    .expect("This can't happen!")
-            })
-            .collect()),
+        Ok(v) => Ok(v.iter().map(convert).collect()),
         Err(e) => Err(CustomError::new(e.to_string())),
     }
 }

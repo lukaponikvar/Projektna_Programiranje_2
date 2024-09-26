@@ -2,9 +2,9 @@ use super::models::Sequence;
 use crate::structs::range::Range;
 use rand::Rng;
 
-/// A sequence that takes two arguments: a and b, and generates
-/// random values in a specified range [min(a, b), max(a,b)).
-/// If the range is empty it returns all a's.
+/// A sequence that takes two arguments: `a` and `b`, and generates random values
+///  in a specified range `[min(a, b), max(a,b))`. If the range is empty it
+///  returns all a's.
 pub struct Random {
     pub min: f64,
     pub max: f64,

@@ -145,8 +145,8 @@ by term.
 
 > __Random sequence__  
 > _Description:_ 
->A sequence that takes two arguments: a and b, and generates random values
- in a specified range [min(a, b), max(a,b)). If the range is empty it 
+>A sequence that takes two arguments: `a` and `b`, and generates random values
+ in a specified range `[min(a, b), max(a,b))`. If the range is empty it 
  returns all a's.  
 > _Parameters:_ 
 >  2  

@@ -359,7 +359,7 @@ body = {
             "sequences": [
                 {
                     "name": "Arithmetic",
-                    "parameters": [1.0, 42],
+                    "parameters": [1.0, 2],
                     "sequences": [],
                 },
                 {
@@ -406,4 +406,5 @@ body = {
         }],
     }]}
 r = requests.post(url + "Binary", json=body)
+# print(r.text)
 assert r.text == "[1.0,10110.0,101011.0,1000000.0,1010101.0,1101010.0,1111111.0]"

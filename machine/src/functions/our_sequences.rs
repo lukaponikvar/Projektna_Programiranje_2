@@ -90,7 +90,7 @@ pub fn our_sequences() -> Vec<SequenceInfo> {
     });
     sequences.push(SequenceInfo {
         name: "Random".to_string(),
-        description: "A sequence that takes two arguments: a and b, and generates random values in a specified range [min(a, b), max(a,b)). If the range is empty it returns all a's."
+        description: "A sequence that takes two arguments: `a` and `b`, and generates random values in a specified range `[min(a, b), max(a,b))`. If the range is empty it returns all a's."
             .to_string(),
         parameters: 2,
         sequences: 0,
