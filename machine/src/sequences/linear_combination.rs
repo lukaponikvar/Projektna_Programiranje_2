@@ -1,5 +1,5 @@
 use super::models::Sequence;
-use crate::structs::range::Range;
+use crate::{functions::size::size, structs::range::Range};
 
 /// Linear combination of two sequences `a` and `b` as given by: `(x*a_i + y*b_i + w)_i` where `x`, `y` and `w` are the three parameters.
 pub struct LinearCombination {
@@ -22,7 +22,7 @@ impl LinearCombination {
 
 impl Sequence<f64> for LinearCombination {
     fn range(&self, range: &Range) -> Vec<f64> {
-        let size: usize = (range.to - range.from) as usize;
+        let size: usize = size(range);
         if self.parameters.len() != self.sequences.len() + 1 || self.sequences.len() == 0 {
             vec![0.0; size]
         } else {

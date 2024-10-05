@@ -1,5 +1,5 @@
 use super::models::Sequence;
-use crate::structs::range::Range;
+use crate::{functions::size::size, structs::range::Range};
 
 /// A sequence that takes two sequences and multiplies them term by term.
 pub struct Product {
@@ -15,7 +15,7 @@ impl Product {
 
 impl Sequence<f64> for Product {
     fn range(&self, range: &Range) -> Vec<f64> {
-        let size: usize = (range.to - range.from) as usize;
+        let size: usize = size(range);
         if self.sequences.len() == 0 {
             vec![1.0; size]
         } else {

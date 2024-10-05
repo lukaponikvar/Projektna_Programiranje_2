@@ -1,7 +1,7 @@
 use futures::future::join_all;
 
 use crate::{
-    functions::get_foreign_vector::get_foreign_vector,
+    functions::{get_foreign_vector::get_foreign_vector, size::size},
     structs::{
         custom_error::CustomError,
         project::Project,
@@ -33,7 +33,7 @@ pub async fn product(
         };
         sequences.push(vector);
     }
-    let size: usize = (range.to - range.from) as usize;
+    let size: usize = size(range);
     if sequences.len() == 0 {
         Ok(vec![1.0; size])
     } else {

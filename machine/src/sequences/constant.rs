@@ -1,5 +1,5 @@
 use super::models::Sequence;
-use crate::structs::range::Range;
+use crate::{functions::size::size, structs::range::Range};
 
 /// Constant sequence with a single parameter: value.
 pub struct Constant {
@@ -15,7 +15,7 @@ impl Constant {
 
 impl Sequence<f64> for Constant {
     fn range(&self, range: &Range) -> Vec<f64> {
-        let result = vec![self.value; (range.to - range.from) as usize];
+        let result = vec![self.value; size(range)];
         result
     }
 }

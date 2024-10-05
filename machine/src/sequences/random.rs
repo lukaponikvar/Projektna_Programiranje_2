@@ -1,5 +1,5 @@
 use super::models::Sequence;
-use crate::structs::range::Range;
+use crate::{functions::size::size, structs::range::Range};
 use rand::Rng;
 
 /// A sequence that takes two arguments: `a` and `b`, and generates random values
@@ -19,7 +19,7 @@ impl Random {
 
 impl Sequence<f64> for Random {
     fn range(&self, range: &Range) -> Vec<f64> {
-        let size: usize = (range.to - range.from) as usize;
+        let size: usize = size(range);
         let (mut min, mut max) = (self.min, self.max);
         if max < min {
             (min, max) = (self.max, self.min);

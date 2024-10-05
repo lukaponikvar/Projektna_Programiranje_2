@@ -1,5 +1,5 @@
 use crate::{
-    functions::get_foreign_vector::get_foreign_vector,
+    functions::{get_foreign_vector::get_foreign_vector, size::size},
     structs::{
         custom_error::CustomError,
         project::Project,
@@ -10,7 +10,7 @@ use crate::{
 use futures::future::join_all;
 
 /// Returns vector of `average` sequence terms in the given `range`.
-/// 
+///
 /// ## Errors
 /// In case of an error is no sequence that matches the requested sequence, the "Invalid input format" error is reported
 /// with additional info about sequence that caused an error.
@@ -32,7 +32,7 @@ pub async fn average(
         };
         sequences.push(vector);
     }
-    let size: usize = (range.to - range.from) as usize;
+    let size: usize = size(range);
     let number = sequences.len();
     if number == 0 {
         Ok(vec![0.0; size])

@@ -22,7 +22,7 @@ impl Sequence<f64> for Fibonacci {
         if range.from == 0 && range.to > 0 {
             result.push(zeroth);
         }
-        if range.from <= 1 && range.to > 1 {
+        if range.from <= 1 && range.to > 1 && ((1 - range.from) % range.step == 0) {
             result.push(first);
         }
         let mut i = 2;
@@ -30,7 +30,7 @@ impl Sequence<f64> for Fibonacci {
             let t = zeroth + first;
             zeroth = first;
             first = t;
-            if i >= range.from {
+            if i >= range.from && ((i - range.from) % range.step == 0) {
                 result.push(first);
             }
             i += 1;
