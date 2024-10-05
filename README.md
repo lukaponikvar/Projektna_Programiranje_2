@@ -52,6 +52,14 @@ average term by term.
 > _Sequences:_ 
 >  2
 
+> __Averages sequence__  
+> _Description:_ 
+> A sequence `(b_n)` that takes a single sequence `(a_n)` and returns a sequence where `b_i = (a_1 + a_2 + ... + a_i)/i`.  
+> _Parameters:_ 
+>  0  
+> _Sequences:_ 
+>  1
+
 > __Binary sequence__  
 > _Description:_ 
 > A sequence that takes a sequences and calculates terms by taking terms, 

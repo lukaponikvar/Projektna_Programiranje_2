@@ -1,5 +1,6 @@
 pub mod arithmetic;
 pub mod average;
+pub mod averages;
 pub mod binary;
 pub mod constant;
 pub mod drop;

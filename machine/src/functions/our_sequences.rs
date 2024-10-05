@@ -19,6 +19,14 @@ pub fn our_sequences() -> Vec<SequenceInfo> {
         sequences: 2,
     });
     sequences.push(SequenceInfo {
+        name: "Averages".to_string(),
+        description:
+            "A sequence `(b_n)` that takes a single sequence `(a_n)` and returns a sequence where `b_i = (a_1 + a_2 + ... + a_i)/i`."
+                .to_string(),
+        parameters: 0,
+        sequences: 1,
+    });
+    sequences.push(SequenceInfo {
         name: "Binary".to_string(),
         description:
             "A sequence that takes a sequences and calculates terms by taking terms, rounding them and converting the integers to binary."
