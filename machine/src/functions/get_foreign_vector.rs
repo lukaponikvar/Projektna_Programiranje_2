@@ -1,5 +1,5 @@
 use super::get_foreign_vector_support::{
-    arithmetic::arithmetic, average::average, binary::binary, constant::constant, drop::drop,
+    arithmetic::arithmetic, average::average, averages::averages, binary::binary, constant::constant, drop::drop,
     fibonacci::fibonacci, floor::floor, geometric::geometric,
     linear_combination::linear_combination, max::max, min::min, other::other, product::product,
     random::random, sum::sum,
@@ -34,6 +34,7 @@ pub async fn get_foreign_vector(
     match &(syn).name {
         s if s == &"Arithmetic".to_string() && ours => arithmetic(syn, range),
         s if s == &"Average".to_string() && ours => average(syn, range, users, all_sequences).await,
+        s if s == &"Averages".to_string() && ours => averages(syn, range, users, all_sequences).await,
         s if s == &"Binary".to_string() && ours => binary(syn, range, users, all_sequences).await,
         s if s == &"Constant".to_string() && ours => constant(syn, range),
         s if s == &"Drop".to_string() && ours => drop(syn, range, users, all_sequences).await,
